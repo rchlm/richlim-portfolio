@@ -495,10 +495,10 @@
     /* Divider between consecutive work items */
     .work-item + .work-item { border-top: 1px solid var(--border); }
 
-    /* Hover: thumbnail scales, mint line slides in before title */
+    /* Hover: thumbnail scales, en-dash fades in, title turns mint */
     .work-item--linked:hover .work-cover { transform: scale(1.04); }
-    .work-item--linked:hover .work-title { padding-left: 2.25rem; }
-    .work-item--linked:hover .work-title::before { transform: translateY(-50%) scaleX(1); }
+    .work-item--linked:hover .work-title { padding-left: 1.75rem; color: var(--accent); }
+    .work-item--linked:hover .work-title::before { opacity: 1; transform: translateX(0); }
 
     .work-body {
       display: flex;
@@ -552,23 +552,26 @@
       color: var(--text);
       position: relative;
       padding-left: 0;
-      transition: padding-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: padding-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.35s ease;
     }
 
     .work-title::before {
-      content: '';
+      content: '–';
       position: absolute;
       left: 0;
-      top: 50%;
-      width: 1.5rem;
-      height: 2px;
-      background: var(--accent);
-      transform: translateY(-50%) scaleX(0);
-      transform-origin: left center;
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      top: 0;
+      font-family: var(--sans);
+      font-size: inherit;
+      font-weight: 500;
+      line-height: inherit;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-0.3rem);
+      transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .work-title em { font-style: normal; font-weight: 500; color: var(--text); }
+    .work-title em { font-style: normal; font-weight: 500; color: inherit; }
 
 
     /* ─── CLIENT TICKER ──────────────────────────────────────────────── */
