@@ -372,3 +372,11 @@
     gap: 1rem;
   }
 }
+
+@media (max-width: 600px) {
+  .footer-nav {
+    flex-wrap: wrap;
+    column-gap: 1.5rem;
+    row-gap: 0.625rem;
+  }
+}
