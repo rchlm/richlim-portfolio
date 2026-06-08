@@ -511,8 +511,13 @@
       #nav-menu li.nav-ext-secondary { display: block; }
       #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
       body.nav-is-open { overflow: hidden; }
-      .cs-hero-title { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .cs-hero-title { font-size: clamp(3rem, 12vw, 4.5rem); }
       .cs-hero-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
+      .cs-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
+      .cs-sidebar-section,
+      .cs-sidebar-section + .cs-sidebar-section,
+      .cs-sidebar-section:first-child { display: flex; flex-direction: column; gap: 0.75rem; }
+      .cs-sidebar-section + .cs-sidebar-section { border-top: 1px solid var(--border); padding-top: 1.25rem; }
     }
     @media (max-width: 500px) {
       .cs-meta-inner { grid-template-columns: 1fr 1fr; }

@@ -435,7 +435,7 @@
     }
     @media (max-width: 640px) {
       .personal-photos { grid-template-columns: 1fr; gap: 2rem; }
-      .personal-photo-img { aspect-ratio: 3 / 2; }
+      .personal-photo-img { aspect-ratio: 3 / 4; }
     }
 
     /* ─── FOOTER ─────────────────────────────────────────────────────── */
@@ -468,7 +468,8 @@
       .nav-ext-secondary { display: none; }
       .nav-links { gap: 1.75rem; }
       .wordmark img { height: 2.25rem; }
-      .info-portrait { aspect-ratio: 3 / 4; max-width: 100%; margin-top: 2rem; }
+      .info-portrait { aspect-ratio: 3 / 4; max-width: 100%; margin-top: 2rem; margin-bottom: 3rem; }
+      .info-hero-inner { justify-content: flex-start; }
 
       body {
         background-image: radial-gradient(ellipse 100% 40% at 50% 0%, rgba(182, 218, 199, 0.10) 0%, transparent 60%);
@@ -491,7 +492,7 @@
       #nav-menu li.nav-ext-secondary { display: block; }
       #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
       body.nav-is-open { overflow: hidden; }
-      .info-bio-hl { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .info-bio-hl { font-size: clamp(3rem, 12vw, 4.5rem); }
       .info-feature-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
     }
     @media (max-width: 640px) {
