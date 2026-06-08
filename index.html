@@ -437,6 +437,88 @@
     }
     /* ─── END PAINTBRUSH HIGHLIGHT ───────────────────────────────────── */
 
+    /* ─── HERO PHONE FRAME ──────────────────────────────────────────────── */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr clamp(220px, 18vw, 280px);
+      gap: clamp(3rem, 5vw, 5rem);
+      align-items: center;
+      width: 100%;
+    }
+
+    .phone-frame {
+      width: 100%;
+      background: linear-gradient(160deg, #222 0%, #111 55%);
+      border-radius: 52px;
+      padding: 11px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.08),
+        0 0 0 1px rgba(0,0,0,0.9),
+        0 40px 100px rgba(0,0,0,0.85),
+        0 0 80px rgba(182,218,199,0.05);
+    }
+
+    .phone-screen {
+      background: #000;
+      border-radius: 42px;
+      overflow: hidden;
+      aspect-ratio: 9 / 19.5;
+      position: relative;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36%;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 3;
+    }
+
+    .phone-home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32%;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      z-index: 3;
+    }
+
+    .phone-screen img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0;
+      animation: phone-cycle 2.5s linear infinite both;
+    }
+    .phone-screen img:nth-of-type(1) { animation-delay: 0s; }
+    .phone-screen img:nth-of-type(2) { animation-delay: 0.5s; }
+    .phone-screen img:nth-of-type(3) { animation-delay: 1s; }
+    .phone-screen img:nth-of-type(4) { animation-delay: 1.5s; }
+    .phone-screen img:nth-of-type(5) { animation-delay: 2s; }
+
+    @keyframes phone-cycle {
+      0%    { opacity: 0; }
+      0.5%  { opacity: 1; }
+      20%   { opacity: 1; }
+      20.5% { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phone-screen img { animation: none; opacity: 0; }
+      .phone-screen img:first-of-type { opacity: 1; }
+    }
+
     /* ─── SELECTED WORK ──────────────────────────────────────────────── */
     .work-section { padding-bottom: 3rem; }
 
@@ -661,6 +743,8 @@
       .nav-ext-secondary { display: none; }
       .nav-links { gap: 1.75rem; }
       .wordmark img { height: 2.25rem; }
+      .hero-grid { display: contents; }
+      .hero-phone { display: none; }
 
       body {
         background-image: radial-gradient(ellipse 100% 40% at 50% 0%, rgba(182, 218, 199, 0.10) 0%, transparent 60%);
@@ -719,28 +803,45 @@
     ═══════════════════════════════════════════════════════ -->
 
     <section class="hero" aria-labelledby="hero-headline">
-      <div class="wrap hero-text page-hero-inner">
-        <p class="hero-kicker"><span class="kicker-dot" aria-hidden="true"></span>Senior Product Designer · <span id="hero-time" aria-live="polite"></span></p>
-        <div class="hero-hl-wrap">
-          <button class="hl-back" id="hl-back" aria-label="Back to main headline">
-            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <h1 class="hero-hl" id="hero-headline">
-            I design <em>products for people</em> and lead the teams that create them.
-          </h1>
-          <canvas id="highlight-canvas" aria-hidden="true"></canvas>
+      <div class="wrap page-hero-inner">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <p class="hero-kicker"><span class="kicker-dot" aria-hidden="true"></span>Senior Product Designer · <span id="hero-time" aria-live="polite"></span></p>
+            <div class="hero-hl-wrap">
+              <button class="hl-back" id="hl-back" aria-label="Back to main headline">
+                <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <h1 class="hero-hl" id="hero-headline">
+                I design <em>products for people</em> and lead the teams that create them.
+              </h1>
+              <canvas id="highlight-canvas" aria-hidden="true"></canvas>
+            </div>
+            <p class="hero-sub">
+              I care about the craft. I care about the people. Everything else follows from that.
+            </p>
+            <a class="book-call" aria-label="Book a call with Rich Lim"
+               data-cal-link="rich-lim-dopc0w/15min"
+               data-cal-namespace="15min"
+               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+              Book a Call
+            </a>
+          </div>
+          <div class="hero-phone" aria-hidden="true">
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <img src="/01.jpg" alt="" />
+                <img src="/02.jpg" alt="" />
+                <img src="/03.jpg" alt="" />
+                <img src="/04.jpg" alt="" />
+                <img src="/05.jpg" alt="" />
+                <div class="phone-notch"></div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+          </div>
         </div>
-        <p class="hero-sub">
-          I care about the craft. I care about the people. Everything else follows from that.
-        </p>
-        <a class="book-call" aria-label="Book a call with Rich Lim"
-           data-cal-link="rich-lim-dopc0w/15min"
-           data-cal-namespace="15min"
-           data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
-          Book a Call
-        </a>
       </div>
       <div class="hero-image">
         <img src="home-hero.JPG" alt="Featured work" loading="eager" fetchpriority="high" />
