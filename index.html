@@ -684,6 +684,8 @@
       .work-body { padding-right: 0; }
       .work-aside { border-radius: 8px; width: clamp(120px, 40vw, 180px); }
       .hero-kicker { font-size: 0.5625rem; letter-spacing: 0.1em; }
+      .hero-hl { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .hero-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center 25%; }
     }
 
     @media (max-width: 480px) {
@@ -736,7 +738,7 @@
         </a>
       </div>
       <div class="hero-image">
-        <img src="home-hero.JPG" alt="Featured work" loading="eager" />
+        <img src="home-hero.JPG" alt="Featured work" loading="eager" fetchpriority="high" />
       </div>
     </section>
 

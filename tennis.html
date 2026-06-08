@@ -518,6 +518,8 @@
       #nav-menu li.nav-ext-secondary { display: block; }
       #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
       body.nav-is-open { overflow: hidden; }
+      .cs-hero-title { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .cs-hero-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
     }
     @media (max-width: 500px) {
       .cs-meta-inner { grid-template-columns: 1fr 1fr; }
@@ -565,7 +567,7 @@
       </div>
 
       <div class="cs-hero-image">
-        <img src="atp-wta-cover.jpg" alt="The Home of Tennis — ATP &amp; WTA unified product concept" />
+        <img src="atp-wta-cover.jpg" alt="The Home of Tennis — ATP &amp; WTA unified product concept" loading="eager" fetchpriority="high" />
       </div>
     </section>
 

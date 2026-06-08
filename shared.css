@@ -274,7 +274,11 @@
   box-sizing: border-box;
 }
 @media (max-width: 768px) {
-  .page-hero-inner { min-height: calc(100svh - 85px - 40px); }
+  .page-hero-inner {
+    min-height: calc(100svh - 85px - 20px);
+    padding-top: clamp(2.5rem, 5vh, 4rem);
+    padding-bottom: clamp(2.5rem, 5vh, 4rem);
+  }
 }
 
 /* ─── FOOTER ─────────────────────────────────────────────────────────────── */

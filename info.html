@@ -468,6 +468,7 @@
       .nav-ext-secondary { display: none; }
       .nav-links { gap: 1.75rem; }
       .wordmark img { height: 2.25rem; }
+      .info-portrait { aspect-ratio: 3 / 4; max-width: 100%; margin-top: 2rem; }
 
       body {
         background-image: radial-gradient(ellipse 100% 40% at 50% 0%, rgba(182, 218, 199, 0.10) 0%, transparent 60%);
@@ -490,6 +491,8 @@
       #nav-menu li.nav-ext-secondary { display: block; }
       #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
       body.nav-is-open { overflow: hidden; }
+      .info-bio-hl { font-size: clamp(2.75rem, 11vw, 4rem); }
+      .info-feature-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
     }
     @media (max-width: 640px) {
       .exp-item { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -544,7 +547,7 @@
         </div>
       </div>
       <div class="info-feature-image">
-        <img src="about-hero.jpg" alt="Rich Lim in the outdoors" loading="eager" />
+        <img src="about-hero.jpg" alt="Rich Lim in the outdoors" loading="eager" fetchpriority="high" />
       </div>
     </section>
 
