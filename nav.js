@@ -4,22 +4,21 @@
   var slot = document.getElementById('site-header');
   if (!slot) return;
 
-  var file = (window.location.pathname.split('/').pop() || 'index.html').split('?')[0];
-  if (!file || file === '/') file = 'index.html';
+  var path = window.location.pathname.replace(/\/+$/, '') || '/';
 
   function cur(href) {
-    return file === href ? ' aria-current="page"' : '';
+    return path === href ? ' aria-current="page"' : '';
   }
 
   slot.innerHTML = [
     '<div class="wrap">',
     '  <nav class="nav-inner" aria-label="Primary navigation">',
-    '    <a href="index.html" class="wordmark" aria-label="Rich Lim – home">',
-    '      <img src="script-logo.svg" alt="Rich Lim" />',
+    '    <a href="/" class="wordmark" aria-label="Rich Lim – home">',
+    '      <img src="/script-logo.svg" alt="Rich Lim" />',
     '    </a>',
     '    <ul class="nav-links" id="nav-menu" role="list">',
-    '      <li><a href="index.html"' + cur('index.html') + '>Work</a></li>',
-    '      <li><a href="info.html"' + cur('info.html') + '>Info</a></li>',
+    '      <li><a href="/"' + cur('/') + '>Work</a></li>',
+    '      <li><a href="/info"' + cur('/info') + '>Info</a></li>',
     '      <li class="nav-ext-secondary">',
     '        <a href="https://www.linkedin.com/in/rchlm" target="_blank" rel="noopener noreferrer"',
     '           aria-label="Rich Lim on LinkedIn (opens in new tab)">',
@@ -27,7 +26,7 @@
     '        </a>',
     '      </li>',
     '      <li class="nav-ext-secondary">',
-    '        <a href="richlim-resume-2026.pdf" target="_blank" rel="noopener noreferrer"',
+    '        <a href="/richlim-resume-2026.pdf" target="_blank" rel="noopener noreferrer"',
     '           aria-label="Rich Lim’s resume PDF (opens in new tab)">',
     '          Resume',
     '        </a>',

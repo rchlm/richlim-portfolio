@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Home of Tennis · Rich Lim</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <meta name="description" content="A high-stakes pitch for two governing bodies to create one unified product vision, won through a competitive RFP process." />
+  <title>One App, Two Bakeries · Rich Lim</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content="A single native mobile platform built to serve two sister brands — COBS Bread and Bakers Delight — without compromising either." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="/shared.css" />
 
   <style>
     /* ─── TOKENS ─────────────────────────────────────────────────────── */
@@ -191,23 +191,7 @@
     }
     .cs-hero-inner {
       position: relative;
-      overflow: hidden;
     }
-
-    /* ─── TENNIS BALL ────────────────────────────────────────────────── */
-    .tennis-ball {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: #B6DAC7;
-      pointer-events: none;
-      will-change: left, top, transform;
-      z-index: 0;
-    }
-    /* Content sits above ball */
-    .cs-hero-head,
-    .cs-hero-subtitle { position: relative; z-index: 1; }
     .cs-hero-head {
       display: flex;
       flex-direction: column;
@@ -277,7 +261,7 @@
     .cs-meta-label {
       font-family: var(--mono); font-size: 0.6875rem;
       letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--text-dim); /* #a09c97 → 7.9:1 on #000 — WCAG AA ✓ */
+      color: var(--text-dim);
     }
     .cs-meta-value {
       font-family: var(--sans); font-size: 0.875rem;
@@ -297,7 +281,7 @@
     /* ─── SIDEBAR ────────────────────────────────────────────────────── */
     .cs-sidebar {
       position: sticky;
-      top: 6rem; /* overridden by JS once meta bar height is known */
+      top: 6rem;
     }
     .cs-sidebar-section {
       display: flex; flex-direction: column; gap: 0.875rem;
@@ -309,7 +293,7 @@
     .cs-sidebar-label {
       font-family: var(--mono); font-size: 0.6875rem;
       letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text-dim); /* 7.9:1 on #000 — WCAG AA ✓ */
+      color: var(--text-dim);
     }
     .cs-sidebar-text {
       font-size: 0.875rem;
@@ -317,6 +301,16 @@
     }
     .cs-sidebar-role {
       font-size: 0.875rem; color: var(--text);
+    }
+    .cs-sidebar-stat {
+      display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .cs-sidebar-stat-val {
+      font-family: var(--mono); font-size: 0.875rem;
+      color: var(--text); letter-spacing: -0.01em;
+    }
+    .cs-sidebar-stat-lbl {
+      font-size: 0.8125rem; line-height: 1.5; color: var(--text-dim);
     }
 
     /* ─── MAIN CONTENT ───────────────────────────────────────────────── */
@@ -346,7 +340,6 @@
       border-radius: 0 10px 10px 0;
       padding: 2.25rem 2.25rem;
     }
-
 
     /* ─── WHAT WE DID CARDS ──────────────────────────────────────────── */
     .cs-work-grid {
@@ -385,7 +378,7 @@
     }
     .cs-work-card-desc {
       font-family: var(--sans); font-size: 0.9375rem;
-      line-height: 1.7; color: var(--text-dim); /* 7.9:1 on #111 — WCAG AA ✓ */
+      line-height: 1.7; color: var(--text-dim);
     }
 
     /* ─── OUTCOMES ───────────────────────────────────────────────────── */
@@ -553,7 +546,7 @@
        HEADER / NAV
   ═══════════════════════════════════════════════════════ -->
   <header class="site-header" id="site-header" role="banner"></header>
-  <script src="nav.js"></script>
+  <script src="/nav.js"></script>
 
   <main id="main">
 
@@ -563,22 +556,19 @@
     <section class="cs-hero" aria-labelledby="cs-title">
       <div class="cs-hero-inner wrap page-hero-inner">
 
-        <!-- abstract tennis ball — bounces behind hero content -->
-        <div class="tennis-ball" id="tennis-ball" aria-hidden="true"></div>
-
-        <div class="cs-hero-head">
-          <img class="cs-hero-logo" src="atp-wta-logos.svg" alt="ATP &amp; WTA" />
+<div class="cs-hero-head">
+          <img class="cs-hero-logo" src="/bdh-logos.svg" alt="COBS Bread &amp; Bakers Delight" />
           <h1 class="cs-hero-title" id="cs-title">
-            The Home <em>of Tennis</em>
+            One App, <em>Two Bakeries</em>
           </h1>
         </div>
 
-        <p class="cs-hero-subtitle">A high-stakes pitch for the ATP &amp; WTA. Two governing bodies, one unified product vision, and a competitive RFP process that we won on the strength of the work.</p>
+        <p class="cs-hero-subtitle">COBS Bread and Bakers Delight are sister brands with shared roots and distinct identities. The challenge was to build a single native mobile platform that could serve both without compromising either.</p>
 
       </div>
 
       <div class="cs-hero-image">
-        <img src="atp-wta-cover.jpg" alt="The Home of Tennis — ATP &amp; WTA unified product concept" loading="eager" fetchpriority="high" />
+        <img src="/bdh-hero.jpg" alt="One App, Two Bakeries — COBS Bread &amp; Bakers Delight mobile application" loading="eager" fetchpriority="high" />
       </div>
     </section>
 
@@ -594,7 +584,7 @@
           </div>
           <div class="cs-meta-item">
             <span class="cs-meta-label card-meta-lbl">Client</span>
-            <span class="cs-meta-value card-meta-val">ATP &amp; WTA</span>
+            <span class="cs-meta-value card-meta-val">COBS Bread &amp; Bakers Delight</span>
           </div>
           <div class="cs-meta-item">
             <span class="cs-meta-label card-meta-lbl">Scope</span>
@@ -615,15 +605,15 @@
 
       <!-- SIDEBAR -->
       <aside class="cs-sidebar" aria-label="Project overview">
-        <a href="index.html#work" class="cs-back-btn" aria-label="Back to all work">← All Work</a>
+        <a href="/#work" class="cs-back-btn" aria-label="Back to all work">← All Work</a>
         <div class="cs-sidebar-section fade">
           <p class="cs-sidebar-label">Overview</p>
-          <p class="cs-sidebar-text">The ATP and WTA issued a competitive RFP for a unified digital product experience. The ask was ambitious: design a platform that could serve fans of both organizations without losing the identity of either. The timeline was compressed. The competition was real. The opportunity was significant.</p>
+          <p class="cs-sidebar-text">COBS Bread and Bakers Delight came to us with a clear vision: a native mobile app that would bring their loyal customer base closer to the brand. Drive orders, reward regulars, and build a direct digital relationship with every visit. We designed the foundation that made it possible.</p>
         </div>
-        <div class="cs-sidebar-section fade">
+<div class="cs-sidebar-section fade">
           <p class="cs-sidebar-label">My Role</p>
           <p class="cs-sidebar-text cs-sidebar-role">Senior Product Designer</p>
-          <p class="cs-sidebar-text">Led design across all phases of the pitch — from early concept exploration through final screen production and the presentation deck. Drove multiple design iterations, pushed the craft at every stage, and helped shape the narrative that won the engagement.</p>
+          <p class="cs-sidebar-text">The only designer on the engagement, working alongside engineers, strategists, and project managers. Designed the full mobile application across both platforms and architected the dual-brand system that held it all together.</p>
         </div>
       </aside>
 
@@ -633,16 +623,16 @@
         <!-- THE PROBLEM -->
         <section class="cs-section fade" aria-labelledby="cs-problem">
           <p class="cs-section-label" id="cs-problem">The Problem</p>
-          <p class="body-text">The ATP and WTA each operated separate digital presences with distinct brand identities. Fans had no single destination for the sport. The RFP challenged teams to envision a unified experience that served both audiences without flattening either brand.</p>
+          <p class="body-text">On the surface, COBS Bread and Bakers Delight look like the same brand. Underneath, they operate as two distinct businesses with different loyalty programs, visual systems, and customer expectations. Building a single application to serve both meant designing a system flexible enough to absorb real operational differences without the seams showing.</p>
           <div class="cs-pullquote-box">
             <blockquote class="cs-pullquote">
-              How do you merge two iconic, fiercely independent brands into one product and make fans of both feel like it was built for them?
+              How do you build one product that feels native to two brands when the brands themselves don't work the same way?
             </blockquote>
           </div>
         </section>
 
         <figure class="cs-image fade">
-          <img src="tennis-product-1.jpg" alt="The Home of Tennis — product design concepts" loading="lazy" />
+          <img src="/bdh-product-1.jpg" alt="COBS Bread &amp; Bakers Delight — dual-brand design system" loading="lazy" />
         </figure>
 
         <!-- WHAT WE DID -->
@@ -652,39 +642,39 @@
 
             <div class="cs-work-card" role="listitem">
               <div class="cs-work-card-num" aria-hidden="true">01</div>
-              <h2 class="cs-work-card-title">Brand-Agnostic UI System</h2>
-              <p class="cs-work-card-desc">Rather than favoring one brand over the other, we designed a UI system intentionally neutral — flexible enough to house both ATP and WTA identities and accommodate multiple partner logos without conflict.</p>
+              <h2 class="cs-work-card-title">Dual-Brand Design System</h2>
+              <p class="cs-work-card-desc">Built a comprehensive Figma design system architected to power both brands from a shared foundation. Each brand retained its own visual voice, naming conventions, and program identity without requiring a separate codebase to support it.</p>
             </div>
 
             <div class="cs-work-card" role="listitem">
               <div class="cs-work-card-num" aria-hidden="true">02</div>
-              <h2 class="cs-work-card-title">Video as a Design Pillar</h2>
-              <p class="cs-work-card-desc">We made video a focal piece of the entire pitch. Not a feature — a foundation. Layout decisions, content hierarchy, and interaction patterns across every screen were shaped around it.</p>
+              <h2 class="cs-work-card-title">Loyalty Card as the Product Backbone</h2>
+              <p class="cs-work-card-desc">Loyalty was the heart of the engagement. We aligned early on a loyalty-style card as the experience's central element, the component everything else was built around. It gave both brands a shared interaction model while preserving the distinctly different program logic underneath.</p>
             </div>
 
             <div class="cs-work-card" role="listitem">
               <div class="cs-work-card-num" aria-hidden="true">03</div>
-              <h2 class="cs-work-card-title">Thoughtful Information Architecture</h2>
-              <p class="cs-work-card-desc">On the Match Center screen — a core RFP deliverable — we included a back arrow showing exactly where that page lived in the broader IA. A small detail that signaled systems thinking.</p>
+              <h2 class="cs-work-card-title">Navigating Two Programs, One Interface</h2>
+              <p class="cs-work-card-desc">Each brand ran a meaningfully different loyalty program with its own naming conventions and reward structures. Designing for that without exposing the complexity to the user was one of the defining challenges. Every screen had to feel purpose-built, not adapted.</p>
             </div>
 
             <div class="cs-work-card" role="listitem">
               <div class="cs-work-card-num" aria-hidden="true">04</div>
-              <h2 class="cs-work-card-title">Rapid Iteration</h2>
-              <p class="cs-work-card-desc">We treated the RFP as a design contest. Multiple concept rounds, rigorous critique at every stage. Each iteration raised the bar on craft and pushed the storytelling further.</p>
+              <h2 class="cs-work-card-title">Technical Constraints as UX Decisions</h2>
+              <p class="cs-work-card-desc">Account deletion became an unexpectedly significant design problem. What started as a legal and technical question reshaped flows, components, and the overall journey. It was a clear example of how technical limitations drive UX decisions in ways no brief anticipates.</p>
             </div>
 
             <div class="cs-work-card" role="listitem">
               <div class="cs-work-card-num" aria-hidden="true">05</div>
-              <h2 class="cs-work-card-title">Pitch Deck &amp; Narrative</h2>
-              <p class="cs-work-card-desc">We designed an immersive presentation alongside the product vision — a full story arc moving from problem to solution to future opportunity, built to land in a room.</p>
+              <h2 class="cs-work-card-title">Phased Product Strategy</h2>
+              <p class="cs-work-card-desc">The engagement was structured in deliberate phases with loyalty as the first major milestone. E-commerce was scoped and positioned as the logical next step, now actively underway following a successful Phase 1 launch.</p>
             </div>
 
           </div>
         </section>
 
         <figure class="cs-image fade">
-          <img src="tennis-product-2.jpg" alt="The Home of Tennis — refined screen designs" loading="lazy" />
+          <img src="/bdh-product-2.jpg" alt="COBS Bread &amp; Bakers Delight — mobile application screens" loading="lazy" />
         </figure>
 
         <!-- OUTCOMES -->
@@ -693,32 +683,32 @@
 
           <div class="cs-outcomes" role="list">
             <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">Won</span>
-              <p class="cs-outcome-label">Selected from a competitive field of agencies</p>
+              <span class="cs-outcome-val">Launched</span>
+              <p class="cs-outcome-label">Live on iOS and Android, Phase 1 shipped on schedule</p>
             </div>
             <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">10 Weeks</span>
-              <p class="cs-outcome-label">Brief to final presentation, start to finish</p>
+              <span class="cs-outcome-val">23 Screens</span>
+              <p class="cs-outcome-label">Designed across both brands from a single design system</p>
             </div>
             <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">15 Screens</span>
-              <p class="cs-outcome-label">High-fidelity screens designed and delivered</p>
+              <span class="cs-outcome-val">100K+</span>
+              <p class="cs-outcome-label">Downloads on Google Play since launch</p>
             </div>
             <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">2 Brands</span>
-              <p class="cs-outcome-label">Unified under a single cohesive product vision</p>
+              <span class="cs-outcome-val">Phase 2</span>
+              <p class="cs-outcome-label">E-commerce underway two months after Phase 1 launch</p>
             </div>
           </div>
 
           <p class="body-text">
-            After a lengthy evaluation process, the ATP and WTA selected our pitch. The deciding factors were design excellence, attention to detail, and a product story they hadn't seen before. We pitched a vision for the future of tennis. They believed it.
+            The design system became more than a deliverable. It gave the client a clear picture of the complexity they were managing across two brands and a scalable framework to carry it forward. The loyalty launch shipped on schedule. The app is live and the roadmap is moving.
           </p>
         </section>
 
         <!-- WHAT I LEARNED -->
         <section class="cs-section fade" aria-labelledby="cs-learned">
           <p class="cs-section-label" id="cs-learned">What I Learned</p>
-          <p class="body-text">Pitching is its own discipline. No matter how strong the work, winning a competitive RFP requires more than good design — it requires building a compelling narrative, reading the room, and making a client feel confident in a team they've never worked with. Sales is a hard position to be in. This project gave me a real appreciation for the people who do it well.</p>
+          <p class="body-text">Designers often want to own the entire experience. The reality is we work on teams where technical constraints, legal requirements, and business logic all shape design decisions. Learning to balance what you want to do with what can actually ship is as important as the craft itself. This project made me better at both.</p>
         </section>
 
       </div>
@@ -731,16 +721,16 @@
       <div class="wrap">
         <div class="cs-pagination-inner">
 
-          <a href="index.html#work" class="cs-pag-item" aria-label="Back to all work">
-            <span class="cs-pag-direction">← Back</span>
-            <span class="cs-pag-title">All Work</span>
-            <span class="cs-pag-sub">Selected Projects</span>
+          <a href="/tennis" class="cs-pag-item" aria-label="Previous case study: The Home of Tennis">
+            <span class="cs-pag-direction">← Previous</span>
+            <span class="cs-pag-title">The Home of Tennis</span>
+            <span class="cs-pag-sub">Product Design</span>
           </a>
 
-          <a href="cobs-bread.html" class="cs-pag-item" aria-label="Next case study: One App, Two Bakeries">
-            <span class="cs-pag-direction">Next →</span>
-            <span class="cs-pag-title">One App, Two Bakeries</span>
-            <span class="cs-pag-sub">Product Design</span>
+          <a href="/#work" class="cs-pag-item" aria-label="Back to all work">
+            <span class="cs-pag-direction">All Work →</span>
+            <span class="cs-pag-title">Selected Projects</span>
+            <span class="cs-pag-sub">Back to overview</span>
           </a>
 
         </div>
@@ -756,8 +746,8 @@
   ═══════════════════════════════════════════════════════ -->
   <footer class="site-footer" id="site-footer" role="contentinfo"></footer>
 
-  <script src="prefooter.js"></script>
-  <script src="footer.js"></script>
+  <script src="/prefooter.js"></script>
+  <script src="/footer.js"></script>
   <script>
     /* ─── CUSTOM CURSOR ─────────────────────────────────── */
     const dot  = document.querySelector('.cursor-dot');
@@ -781,18 +771,6 @@
         el.addEventListener('mouseenter', () => { dot.classList.add('is-hover'); ring.classList.add('is-hover'); });
         el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
       });
-
-      // Invert cursor on light cards
-      document.querySelectorAll('.cs-work-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          dot.style.background = '#1a1a1a';
-          ring.style.borderColor = 'rgba(0,0,0,0.22)';
-        });
-        card.addEventListener('mouseleave', () => {
-          dot.style.background = '';
-          ring.style.borderColor = '';
-        });
-      });
     }
 
     /* ─── STICKY META / PUSH NAV ────────────────────────── */
@@ -802,14 +780,12 @@
       var sidebar = document.querySelector('.cs-sidebar');
       if (!header || !metaBar) return;
 
-      // Pin sidebar top just below the sticky meta bar
       function setSidebarTop() {
         if (sidebar) sidebar.style.top = (metaBar.offsetHeight + 24) + 'px';
       }
       setSidebarTop();
       window.addEventListener('resize', setSidebarTop, { passive: true });
 
-      // Desktop only: smooth-push nav upward as meta ribbon scrolls into top
       if (!window.matchMedia('(min-width: 900px)').matches) return;
 
       var navH = header.offsetHeight;
@@ -835,58 +811,6 @@
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
     }, { threshold: 0.08 });
     document.querySelectorAll('.fade').forEach(el => observer.observe(el));
-
-    /* ─── TENNIS BALL BOUNCE ────────────────────────────────── */
-    (function () {
-      var ball = document.getElementById('tennis-ball');
-      if (!ball) return;
-      var container = ball.parentElement;
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        ball.style.opacity = '0.12';
-        ball.style.left = '5%';
-        ball.style.top  = '20%';
-        return;
-      }
-
-      var bW = ball.offsetWidth;
-      var bH = ball.offsetHeight;
-      var cW = container.offsetWidth;
-      var cH = container.offsetHeight;
-
-      window.addEventListener('resize', function () {
-        cW = container.offsetWidth;
-        cH = container.offsetHeight;
-      }, { passive: true });
-
-      // start somewhere in the middle third so it's visible on load
-      var x = cW * 0.2 + Math.random() * cW * 0.4;
-      var y = cH * 0.1 + Math.random() * cH * 0.5;
-
-      // avoid angles that are too shallow (< 20° from horizontal/vertical)
-      var angle = (Math.PI * 0.22) + Math.random() * (Math.PI * 0.56);
-      if (Math.random() > 0.5) angle += Math.PI;
-
-      var speed = window.matchMedia('(max-width: 640px)').matches ? 1.4 : 0.48;
-      var vx = Math.cos(angle) * speed;
-      var vy = Math.sin(angle) * speed;
-      function tick() {
-        x += vx;
-        y += vy;
-
-        if (x <= 0)            { x = 0;          vx =  Math.abs(vx); }
-        else if (x >= cW - bW) { x = cW - bW;    vx = -Math.abs(vx); }
-        if (y <= 0)            { y = 0;          vy =  Math.abs(vy); }
-        else if (y >= cH - bH) { y = cH - bH;    vy = -Math.abs(vy); }
-
-        ball.style.left = x + 'px';
-        ball.style.top  = y + 'px';
-
-        requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    }());
 
   </script>
 
