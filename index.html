@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rich Lim · Senior Product Designer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="description" content="Senior Product Designer with 15 years across startups and global brands. Currently based in Mountain Standard Time, U.S.A." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────────── */
+    :root {
+      --bg:          #000000;
+      --surface:     #111111;
+      --border:      #1f1f1f;
+      --border-dim:  rgba(255,255,255,0.05);
+      --text:        #F4F4F0;
+      --text-dim:    #a09c97;
+      --text-sub:    #6b6763;   /* decorative / aria-hidden use only */
+      --accent:      #B6DAC7;   /* sage green — 14.2:1 on --bg — WCAG AAA ✓ */
+
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'Space Mono', 'Courier New', monospace;
+
+      --max-w: 1600px;
+      --px:    clamp(1rem, 2.5vw, 2.5rem);
+    }
+
+    /* ─── BASE ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      /* Subtle ambient glow from above the header — fixed so it persists on scroll */
+      background-image: radial-gradient(ellipse 90% 60% at 50% -5%, rgba(182, 218, 199, 0.13) 0%, rgba(182, 218, 199, 0.04) 45%, transparent 70%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────────────────────── */
+    .cursor-dot {
+      position: fixed;
+      left: -200px;
+      top: -200px;
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      left: -200px;
+      top: -200px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(182, 218, 199, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.35s ease, height 0.35s ease,
+                  border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .cursor-dot.is-hover {
+      width: 8px;
+      height: 8px;
+      background: var(--text);
+    }
+
+    .cursor-ring.is-hover {
+      width: 50px;
+      height: 50px;
+      border-color: rgba(182, 218, 199, 0.15);
+      background: rgba(182, 218, 199, 0.03);
+    }
+
+    /* Hide cursor on touch/coarse-pointer devices */
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ─── ACCESSIBILITY ──────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 9999;
+      padding: 0.5rem 1.25rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    :focus:not(:focus-visible) { outline: none; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────────── */
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: transparent;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+    }
+
+    .wordmark img {
+      height: 2.75rem;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-links a[aria-current="page"] {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    /* External link indicator */
+    .nav-ext {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.2em;
+    }
+
+    .nav-ext-icon {
+      font-size: 0.75em;
+      line-height: 1;
+      color: var(--text-dim);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover .nav-ext-icon { color: var(--text); }
+
+    .nav-links .nav-cta {
+      color: var(--text);
+      background: transparent;
+      border-color: rgba(182, 218, 199, 0.35);
+    }
+
+    /* ─── HAMBURGER ──────────────────────────────────────────────────── */
+    /* Applied when custom cursor JS initialises on fine-pointer devices */
+    body.js-cursor { cursor: none; }
+    body.js-cursor .nav-toggle { cursor: none; }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 40px;
+      background: none; border: none;
+      padding: 0.5rem; cursor: pointer;
+      z-index: 9997; position: relative;
+      flex-shrink: 0;
+    }
+    .hamburger-line {
+      display: block;
+      width: 20px; height: 1.5px;
+      background: var(--text); border-radius: 1px;
+      transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s ease;
+    }
+    .nav-toggle.is-open .hamburger-line:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    .nav-toggle.is-open .hamburger-line:nth-child(2) {
+      opacity: 0; transform: scaleX(0);
+    }
+    .nav-toggle.is-open .hamburger-line:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────────────── */
+    .hero {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-text {
+      align-items: flex-start;
+    }
+
+    .hero-text .book-call {
+      margin-top: 1.75rem;
+      color: var(--text);
+      background: transparent;
+      border-color: rgba(182, 218, 199, 0.35);
+    }
+    .hero-text .book-call .arr { color: inherit; }
+
+    .hero-kicker {
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-hl {
+      font-family: var(--sans);
+      font-size: clamp(2.625rem, 6.5vw, 5.5rem);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.035em;
+      max-width: 960px;
+      margin-bottom: 2.25rem;
+    }
+
+    @keyframes gradient-sweep {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .hero-hl em {
+      font-style: normal;
+      font-weight: 500;
+      background: linear-gradient(90deg, #FFD28C, #FFA0BE, #BEAAFF, #8CDCFF, #FFD28C);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: gradient-sweep 5s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-hl em {
+        background: none;
+        -webkit-text-fill-color: var(--accent);
+        color: var(--accent);
+        animation: none;
+      }
+    }
+
+
+    .hero-sub {
+      font-family: var(--sans);
+      font-size: clamp(1.0625rem, 1.75vw, 1.25rem);
+      font-weight: 400;
+      line-height: 1.5;
+      color: #b5b1ac;
+      max-width: 580px;
+    }
+
+    /* Full-bleed hero image — taller */
+    .hero-image {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hero-image-label {
+      display: none;
+    }
+
+    /* ─── PAINTBRUSH HIGHLIGHT ──────────────────────────────────────── */
+
+    .hero-hl-wrap {
+      position: relative;
+      max-width: 960px;
+      margin-bottom: 1.5rem;
+      touch-action: none;
+    }
+    .hero-hl-wrap .hero-hl {
+      max-width: none;
+      margin-bottom: 0;
+    }
+
+    /* Canvas sits on top of h1; multiply blend masks yellow to letter shapes. */
+    #highlight-canvas {
+      display: none;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      touch-action: none;
+    }
+
+    /* Subtle completion pulse — just a very gentle scale breathe */
+    @keyframes hl-fill-done {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.006); }
+      100% { transform: scale(1); }
+    }
+    @keyframes hl-canvas-flicker {
+      0%   { opacity: 1; }
+      35%  { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    #hero-headline.is-completing {
+      animation: hl-fill-done 0.6s ease-in-out;
+      transform-origin: left center;
+    }
+    #highlight-canvas.is-completing {
+      animation: hl-canvas-flicker 0.6s ease;
+    }
+
+    /* Quote reveal state */
+    .hero-text.is-revealed .hero-kicker,
+    .hero-text.is-revealed .hero-sub,
+    .hero-text.is-revealed #highlight-canvas {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-text.is-revealed .hero-hl {
+      font-size: clamp(1.75rem, 4vw, 3.25rem);
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    /* Attribution line */
+    .hl-attrib {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim); /* #a09c97 → 7.9:1 on #000 — WCAG AA ✓ */
+      font-style: normal;
+      margin-top: 1.25rem;
+    }
+
+    /* Back button — absolutely positioned above the headline, out of flow */
+    .hl-back {
+      position: absolute;
+      bottom: calc(100% + 1.5rem);
+      left: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--text-sub); /* #6b6763 → 3.7:1 on #000 — WCAG AA non-text ✓ */
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, opacity 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hl-back.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .hl-back:hover {
+      color: var(--text);
+      border-color: var(--text-dim);
+    }
+    .hl-back svg {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Transition helpers */
+    .hero-kicker, .hero-sub, #highlight-canvas, .hero-hl {
+      transition: opacity 0.5s ease;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #highlight-canvas { touch-action: none; }
+    }
+    /* ─── END PAINTBRUSH HIGHLIGHT ───────────────────────────────────── */
+
+    /* ─── SELECTED WORK ──────────────────────────────────────────────── */
+    .work-section { padding-bottom: 3rem; }
+
+    .work-section-header {
+      padding: clamp(3.5rem, 7vh, 6rem) 0 1.25rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .work-section-label {
+      font-family: var(--sans);
+      font-size: clamp(0.875rem, 1.75vw, 1.25rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .work-section-count {
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    .work-list {
+      display: flex;
+      flex-direction: column;
+      padding-top: 0.5rem;
+    }
+
+    /* Item is the layout grid — no visual container */
+    .work-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(150px, 16vw, 210px);
+      gap: clamp(4rem, 8vw, 8rem);
+      align-items: start;
+      padding: clamp(3rem, 6vh, 5rem) 0;
+    }
+
+    /* Overlay link — keyboard-accessible */
+    .work-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    .work-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /* Divider between consecutive work items */
+    .work-item + .work-item { border-top: 1px solid var(--border); }
+
+    /* Hover: thumbnail scales, mint line slides in before title */
+    .work-item--linked:hover .work-cover { transform: scale(1.04); }
+    .work-item--linked:hover .work-title { padding-left: 2.25rem; }
+    .work-item--linked:hover .work-title::before { transform: translateY(-50%) scaleX(1); }
+
+    .work-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    /* Meta row: Role + Scope side-by-side, narrow, 24px apart */
+    .work-body .card-meta {
+      display: flex;
+      flex-direction: row;
+      gap: 1.5rem;
+      width: fit-content;
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .work-desc {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: #b5b1ac;
+    }
+
+    /* Clip + animate the thumbnail */
+    .work-aside {
+      overflow: hidden;
+      border-radius: 10px;
+      align-self: start;
+    }
+
+    .work-cover {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .work-client {
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .work-title {
+      font-family: var(--sans);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      position: relative;
+      padding-left: 0;
+      transition: padding-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .work-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 1.5rem;
+      height: 2px;
+      background: var(--accent);
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .work-title em { font-style: normal; font-weight: 500; color: var(--text); }
+
+
+    /* ─── CLIENT TICKER ──────────────────────────────────────────────── */
+    .clients-section {
+      padding: 5.5rem 0 8rem;
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    }
+
+    .ticker-inner {
+      display: flex;
+      align-items: center;
+      gap: 5.5rem;
+      width: max-content;
+      animation: ticker 72s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-slot {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+    }
+
+    .ticker-slot img {
+      height: 100%;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.72;
+      display: block;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-inner { animation-play-state: paused; }
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────── */
+    .site-footer { padding: 2.5rem 0; border-top: 1px solid var(--border); }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy,
+    .footer-tz {
+      font-family: var(--mono);
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    /* ─── SCROLL ANIMATION ───────────────────────────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade {
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition: opacity 0.65s ease, transform 0.65s ease;
+      }
+      .fade.visible {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ─── RESPONSIVE — MOBILE ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .wrap { padding: 0 20px; }
+      .nav-ext-secondary { display: none; }
+      .nav-links { gap: 1.75rem; }
+      .wordmark img { height: 2.25rem; }
+
+      body {
+        background-image: radial-gradient(ellipse 100% 40% at 50% 0%, rgba(182, 218, 199, 0.10) 0%, transparent 60%);
+        background-attachment: scroll;
+      }
+    }
+
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      #nav-menu {
+        position: fixed; inset: 0;
+        background: var(--bg);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 2rem; z-index: 9996;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      #nav-menu.is-open { opacity: 1; pointer-events: auto; }
+      #nav-menu a { font-size: 1.125rem; letter-spacing: 0.04em; }
+      #nav-menu li.nav-ext-secondary { display: block; }
+      #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
+      body.nav-is-open { overflow: hidden; }
+      .work-item { grid-template-columns: 1fr; gap: 1.5rem; }
+      .work-body { padding-right: 0; }
+      .work-aside { border-radius: 8px; width: clamp(120px, 40vw, 180px); }
+      .hero-kicker { font-size: 0.5625rem; letter-spacing: 0.1em; }
+    }
+
+    @media (max-width: 480px) {
+      .work-title { font-size: clamp(1.5rem, 8vw, 3rem); }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Custom cursor elements -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER / NAV
+  ═══════════════════════════════════════════════════════ -->
+  <header class="site-header" id="site-header" role="banner"></header>
+  <script src="nav.js"></script>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════════ -->
+
+    <section class="hero" aria-labelledby="hero-headline">
+      <div class="wrap hero-text page-hero-inner">
+        <p class="hero-kicker"><span class="kicker-dot" aria-hidden="true"></span>Senior Product Designer · <span id="hero-time" aria-live="polite"></span></p>
+        <div class="hero-hl-wrap">
+          <button class="hl-back" id="hl-back" aria-label="Back to main headline">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <h1 class="hero-hl" id="hero-headline">
+            I design <em>products for people</em> and lead the teams that create them.
+          </h1>
+          <canvas id="highlight-canvas" aria-hidden="true"></canvas>
+        </div>
+        <p class="hero-sub">
+          I care about the craft. I care about the people. Everything else follows from that.
+        </p>
+        <a class="book-call" aria-label="Book a call with Rich Lim"
+           data-cal-link="rich-lim-dopc0w/15min"
+           data-cal-namespace="15min"
+           data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+          Book a Call
+        </a>
+      </div>
+      <div class="hero-image">
+        <img src="home-hero.JPG" alt="Featured work" loading="eager" />
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SELECTED WORK
+    ═══════════════════════════════════════════════════════ -->
+    <section id="work" class="work-section" aria-labelledby="work-heading">
+      <div class="wrap">
+        <div class="work-section-header">
+          <h2 class="work-section-label" id="work-heading">Selected Work</h2>
+          <span class="work-section-count" aria-hidden="true">02 Projects</span>
+        </div>
+
+        <div class="work-list">
+
+          <article class="work-item work-item--linked fade" aria-labelledby="work-title-1">
+            <a href="tennis.html" class="work-link" aria-labelledby="work-title-1" aria-label="View The Home of Tennis case study"></a>
+            <div class="work-body">
+              <span class="work-client">ATP · WTA</span>
+              <h3 class="work-title" id="work-title-1">The <em>Home</em> of Tennis</h3>
+              <p class="work-desc">Unifying ATP and WTA into one authoritative mobile product — two competing brands, one shared vision for the world's most-watched tennis platform.</p>
+              <dl class="card-meta">
+                <div class="card-meta-item">
+                  <dt class="card-meta-lbl">Role</dt>
+                  <dd class="card-meta-val">Senior Product Designer</dd>
+                </div>
+                <div class="card-meta-item">
+                  <dt class="card-meta-lbl">Scope</dt>
+                  <dd class="card-meta-val">Native Mobile</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="work-aside">
+              <img class="work-cover" src="atp-wta-cover.jpg" alt="The Home of Tennis — ATP &amp; WTA" loading="lazy" />
+            </div>
+          </article>
+
+          <article class="work-item work-item--linked fade" aria-labelledby="work-title-2">
+            <a href="cobs-bread.html" class="work-link" aria-hidden="true" tabindex="-1"></a>
+            <div class="work-body">
+              <span class="work-client">COBS Bread · Bakers Delight</span>
+              <h3 class="work-title" id="work-title-2"><a href="cobs-bread.html">One App, <em>Two</em> Bakeries</a></h3>
+              <p class="work-desc">One native app, two beloved bakery brands sharing the same codebase. Redesigning ordering flows that honor both brand voices without doubling the complexity.</p>
+              <dl class="card-meta">
+                <div class="card-meta-item">
+                  <dt class="card-meta-lbl">Role</dt>
+                  <dd class="card-meta-val">Senior Product Designer</dd>
+                </div>
+                <div class="card-meta-item">
+                  <dt class="card-meta-lbl">Scope</dt>
+                  <dd class="card-meta-val">Native Mobile</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="work-aside">
+              <img class="work-cover" src="bdh-cover.jpg" alt="One App, Two Bakeries — COBS Bread &amp; Bakers Delight" loading="lazy" />
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CLIENT TICKER
+    ═══════════════════════════════════════════════════════ -->
+    <section id="info" class="clients-section" aria-label="Client roster">
+      <div class="ticker-track">
+        <div class="ticker-inner" aria-hidden="true">
+          <div class="ticker-slot"><img src="logos/atp.svg" alt="ATP" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/wta.svg" alt="WTA" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/cobs.svg" alt="COBS Bread" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/bakers-delight.svg" alt="Bakers Delight" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/nintendo.svg" alt="Nintendo" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/t-mobile.svg" alt="T-Mobile" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/figma.svg" alt="Figma" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/aps.svg" alt="APS" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/crowley.svg" alt="Crowley" loading="lazy"></div>
+          <!-- duplicate set for seamless loop -->
+          <div class="ticker-slot"><img src="logos/atp.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/wta.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/cobs.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/bakers-delight.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/nintendo.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/t-mobile.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/figma.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/aps.svg" alt="" loading="lazy"></div>
+          <div class="ticker-slot"><img src="logos/crowley.svg" alt="" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
+
+    <div id="prefooter"></div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="site-footer" id="site-footer" role="contentinfo"></footer>
+
+  <script src="prefooter.js"></script>
+  <script src="footer.js"></script>
+  <script>
+    // Scroll animation
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+    // Custom cursor — pointer devices only
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.body.classList.add('js-cursor');
+
+      const dot  = document.querySelector('.cursor-dot');
+      const ring = document.querySelector('.cursor-ring');
+
+      let mx = -200, my = -200;
+      let rx = -200, ry = -200;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      (function tick() {
+        rx += (mx - rx) * 0.11;
+        ry += (my - ry) * 0.11;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(tick);
+      })();
+
+      document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          dot.classList.add('is-hover');
+          ring.classList.add('is-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          dot.classList.remove('is-hover');
+          ring.classList.remove('is-hover');
+        });
+      });
+
+      document.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0'; ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        dot.style.opacity = '1'; ring.style.opacity = '1';
+      });
+
+      // Invert cursor on all work cards (always beige)
+      document.querySelectorAll('.work-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          dot.style.background = '#1a1a1a';
+          ring.style.borderColor = 'rgba(0,0,0,0.22)';
+        });
+        item.addEventListener('mouseleave', () => {
+          dot.style.background = '';
+          ring.style.borderColor = '';
+        });
+      });
+    }
+
+  </script>
+
+  <script>
+  /* ── Paintbrush highlight ─────────────────────────────────────────── */
+  (function () {
+    'use strict';
+
+    var canvas   = document.getElementById('highlight-canvas');
+    if (!canvas) return;
+
+    var ctx      = canvas.getContext('2d');
+    var hlWrap   = canvas.parentElement;
+    var heroText = document.querySelector('.hero-text');
+    var hl       = document.getElementById('hero-headline');
+    var sub      = document.querySelector('.hero-sub');
+    var kicker   = document.querySelector('.hero-kicker');
+    var backBtn  = document.getElementById('hl-back');
+    if (!hl || !sub || !heroText || !kicker || !backBtn) return;
+
+    var ORIG_HL  = hl.innerHTML;
+    var BRUSH_R  = 85;
+    var THRESHOLD = 0.97;
+    var dpr      = Math.min(window.devicePixelRatio || 1, 2);
+
+    var QUOTES = [
+      { q: 'The details are not the details. They make the design.',           a: 'Charles Eames' },
+      { q: 'Design is not just what it looks like. Design is how it works.',   a: 'Steve Jobs' },
+      { q: 'Good design is as little design as possible.',                      a: 'Dieter Rams' },
+      { q: 'Everything is designed. Few things are designed well.',             a: 'Brian Reed' },
+      { q: 'Design is intelligence made visible.',                              a: 'Alina Wheeler' },
+      { q: 'Simplicity is the ultimate sophistication.',                        a: 'Leonardo da Vinci' },
+      { q: 'The best design is the one you don’t notice.',                 a: 'Unknown' },
+      { q: 'Design is where science and art break even.',                       a: 'Robin Mathew' },
+      { q: 'A designer knows they have achieved perfection not when there is nothing left to add, but when there is nothing left to take away.', a: 'Antoine de Saint-Exupéry' },
+      { q: 'You can’t use up creativity. The more you use, the more you have.', a: 'Maya Angelou' },
+      { q: 'Design creates culture. Culture shapes values. Values determine the future.', a: 'Robert L. Peters' },
+      { q: 'The function of design is letting design function.',                a: 'Micha Bhatt' },
+      { q: 'Good design is obvious. Great design is transparent.',              a: 'Joe Sparano' },
+      { q: 'Design is thinking made visual.',                                   a: 'Saul Bass' },
+      { q: 'Every great design begins with an even better story.',              a: 'Lorinda Mamo' },
+      { q: 'Without aesthetic, design is either the humdrum repetition of familiar clichés or a wild scramble for novelty.', a: 'Paul Rand' },
+      { q: 'People ignore design that ignores people.',                         a: 'Frank Chimero' },
+      { q: 'The life of a designer is a life of fight — fight against the ugliness.', a: 'Massimo Vignelli' },
+      { q: 'Design is so simple. That’s why it’s so complicated.',    a: 'Paul Rand' },
+      { q: 'A product is bought to be used. It has to satisfy certain criteria, not only functional but also psychological and aesthetic.', a: 'Dieter Rams' },
+      { q: 'It’s through mistakes that you actually can grow.',            a: 'Miles Davis' },
+      { q: 'Recognizing the need is the primary condition for design.',         a: 'Charles Eames' },
+      { q: 'Design is not for philosophy — it’s for life.',           a: 'Issey Miyake' },
+      { q: 'You don’t think your way to creative work. You work your way to creative thinking.', a: 'George Nelson' },
+      { q: 'The alternate title for designer is “professional problem solver.”', a: 'Unknown' },
+      { q: 'Design is the silent ambassador of your brand.',                    a: 'Paul Rand' },
+    ];
+
+    var lastQuoteIdx = -1;
+    function pickQuote() {
+      var idx;
+      do { idx = Math.floor(Math.random() * QUOTES.length); }
+      while (idx === lastQuoteIdx && QUOTES.length > 1);
+      lastQuoteIdx = idx;
+      return QUOTES[idx];
+    }
+
+    // ── Canvas sizing ─────────────────────────────────────────────────────
+    function sizeCanvas() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width  = hlWrap.offsetWidth  * dpr;
+      canvas.height = hlWrap.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      resetGrid();
+    }
+
+    // ── Coverage grid ─────────────────────────────────────────────────────
+    var GCOLS = 55, GROWS = 14;
+    var TOTAL = GCOLS * GROWS;
+    var grid  = new Uint8Array(TOTAL);
+    var painted = 0;
+
+    function resetGrid() { grid.fill(0); painted = 0; }
+
+    function markGrid(x, y) {
+      var cw = hlWrap.offsetWidth  / GCOLS;
+      var ch = hlWrap.offsetHeight / GROWS;
+      var reach = BRUSH_R * 0.75;
+      var minC = Math.max(0, Math.floor((x - reach) / cw));
+      var maxC = Math.min(GCOLS - 1, Math.ceil((x + reach) / cw));
+      var minR = Math.max(0, Math.floor((y - reach) / ch));
+      var maxR = Math.min(GROWS - 1, Math.ceil((y + reach) / ch));
+      for (var r = minR; r <= maxR; r++) {
+        for (var c = minC; c <= maxC; c++) {
+          var idx = r * GCOLS + c;
+          if (!grid[idx]) { grid[idx] = 1; painted++; }
+        }
+      }
+    }
+
+    // ── Gradient color by horizontal position ─────────────────────────────
+    // Light pastel stops — work well with mix-blend-mode: multiply on white text
+    var GRAD_STOPS = [
+      [255, 210, 140],   // warm amber
+      [255, 160, 190],   // rose pink
+      [190, 170, 255],   // soft violet
+      [140, 220, 255],   // clear sky
+    ];
+
+    function lerpRGB(a, b, t) {
+      return [
+        Math.round(a[0] + (b[0] - a[0]) * t),
+        Math.round(a[1] + (b[1] - a[1]) * t),
+        Math.round(a[2] + (b[2] - a[2]) * t),
+      ];
+    }
+
+    function gradColorAt(x) {
+      var t   = Math.max(0, Math.min(1, x / hlWrap.offsetWidth));
+      var seg = t * (GRAD_STOPS.length - 1);
+      var i   = Math.min(Math.floor(seg), GRAD_STOPS.length - 2);
+      return lerpRGB(GRAD_STOPS[i], GRAD_STOPS[i + 1], seg - i);
+    }
+
+    // ── Brush stroke ──────────────────────────────────────────────────────
+    function paint(x, y) {
+      var c = gradColorAt(x);
+      var g = ctx.createRadialGradient(x, y, 0, x, y, BRUSH_R);
+      g.addColorStop(0,    'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.88)');
+      g.addColorStop(0.5,  'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.65)');
+      g.addColorStop(0.85, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.22)');
+      g.addColorStop(1,    'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, BRUSH_R, 0, Math.PI * 2);
+      ctx.fill();
+      markGrid(x, y);
+    }
+
+    // ── State ─────────────────────────────────────────────────────────────
+    var completed  = false;
+    var completing = false;
+    var lastPt     = null;
+
+    // ── Reveal quote, persistent — back button to reset ───────────────────
+    function triggerComplete() {
+      if (completed) return;
+      completed = true;
+
+      var chosen = pickQuote();
+
+      // Fade out kicker, sub, canvas — keep height stable
+      heroText.style.height = heroText.offsetHeight + 'px';
+      kicker.style.opacity  = '0';
+      kicker.style.pointerEvents = 'none';
+      canvas.style.opacity  = '0';
+      canvas.style.pointerEvents = 'none';
+      sub.style.opacity     = '0';
+      hl.style.opacity      = '0';
+
+      setTimeout(function () {
+        // Swap headline to quote
+        hl.innerHTML = chosen.q + '<span class="hl-attrib">— ' + chosen.a + '</span>';
+        heroText.classList.add('is-revealed');
+
+        // Fade in quote + show back button
+        hl.style.opacity = '1';
+        backBtn.classList.add('is-visible');
+        heroText.style.height = '';
+      }, 520);
+    }
+
+    // ── Back: restore original state ──────────────────────────────────────
+    function resetToOriginal() {
+      heroText.style.height = heroText.offsetHeight + 'px';
+      hl.style.opacity  = '0';
+      backBtn.classList.remove('is-visible');
+
+      setTimeout(function () {
+        heroText.classList.remove('is-revealed');
+        hl.innerHTML      = ORIG_HL;
+        hl.style.opacity  = '1';
+        kicker.style.opacity = '1';
+        kicker.style.pointerEvents = '';
+        sub.style.opacity = '1';
+
+        ctx.clearRect(0, 0, hlWrap.offsetWidth, hlWrap.offsetHeight);
+        canvas.style.opacity = '1';
+        canvas.style.pointerEvents = '';
+        resetGrid();
+        lastPt     = null;
+        completed  = false;
+        completing = false;
+        heroText.style.height = '';
+      }, 450);
+    }
+
+    backBtn.addEventListener('click', resetToOriginal);
+
+    // ── Completion micro-animation, then reveal ────────────────────────────
+    function onCoverageFull() {
+      if (completing || completed) return;
+      completing = true;
+      hl.classList.add('is-completing');
+      canvas.classList.add('is-completing');
+      hl.addEventListener('animationend', function handler() {
+        hl.removeEventListener('animationend', handler);
+        hl.classList.remove('is-completing');
+        canvas.classList.remove('is-completing');
+        triggerComplete();
+      });
+    }
+
+    // ── Input handler (mouse + touch) ─────────────────────────────────────
+    function handlePoint(x, y) {
+      if (completed || completing) return;
+      var cRect = canvas.getBoundingClientRect();
+      var px = x - cRect.left;
+      var py = y - cRect.top;
+
+      if (lastPt) {
+        var dx = px - lastPt.x, dy = py - lastPt.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var steps = Math.floor(dist / 18);
+        for (var i = 1; i <= steps; i++) {
+          var t = i / (steps + 1);
+          paint(lastPt.x + dx * t, lastPt.y + dy * t);
+        }
+      }
+      paint(px, py);
+      lastPt = { x: px, y: py };
+
+      if (painted / TOTAL >= THRESHOLD) onCoverageFull();
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(sizeCanvas);
+    } else {
+      window.addEventListener('load', sizeCanvas);
+    }
+    window.addEventListener('resize', function () {
+      if (!completed) sizeCanvas();
+    });
+
+    window.triggerHeroReveal = triggerComplete;
+    window.resetHeroReveal   = resetToOriginal;
+  })();
+  /* ── End paintbrush highlight ─────────────────────────────────────── */
+  </script>
+
+  <!-- Cal.com element-click embed -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "15min", {origin:"https://app.cal.com"});
+    Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+  </script>
+
+</body>
+</html>

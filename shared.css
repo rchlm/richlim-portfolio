@@ -1,0 +1,370 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHARED.CSS — design-system primitives
+   Edit here to update every instance of these components sitewide.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── PRIMARY BUTTON BASE ────────────────────────────────────────────────── */
+/* Sizing, typography, and transition shared by all primary buttons. */
+.nav-cta,
+.book-call,
+.email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Space Mono', 'Courier New', monospace;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Default appearance on dark backgrounds */
+.email-btn {
+  color: var(--text);
+  background: transparent;
+  border-color: rgba(182, 218, 199, 0.35);
+}
+.email-btn .arr { color: var(--accent); }
+
+/* ── Universal hover ── */
+.nav-cta:hover,
+.book-call:hover,
+.email-btn:hover {
+  background:   #B6DAC7 !important;
+  color:        #000000 !important;
+  border-color: #B6DAC7 !important;
+}
+
+/* Arrow glyphs follow the button's text color on hover. */
+.nav-cta:hover .arr,
+.book-call:hover .arr,
+.email-btn:hover .arr {
+  color: inherit !important;
+}
+
+/* Active (pressed) state — mint bg/border retained, text inverts to white */
+.nav-cta:active,
+.book-call:active,
+.email-btn:active {
+  background:   #B6DAC7 !important;
+  color:        #ffffff !important;
+  border-color: #B6DAC7 !important;
+}
+.nav-cta:active .arr,
+.book-call:active .arr,
+.email-btn:active .arr { color: inherit !important; }
+
+@media (max-width: 480px) {
+  .nav-cta,
+  .book-call,
+  .email-btn { font-size: 0.75rem; padding: 0.7rem 1.5rem; }
+}
+
+/* ─── PULSE DOT ──────────────────────────────────────────────────────────── */
+/* Edit the tokens below to update size / color / gap sitewide. */
+:root {
+  --dot-size:  10px;
+  --dot-gap:   0.95em;
+  --dot-color: #B6DAC7;
+  --dot-ring:  rgba(182, 218, 199, 0.28);
+}
+
+/* Applied to any element that contains a kicker dot. */
+.hero-kicker,
+.info-bio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--dot-gap);
+}
+
+.kicker-dot {
+  flex-shrink: 0;
+  display: inline-block;
+  width:  var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background: var(--dot-color);
+  position: relative;
+  animation: kicker-dot-pulse 2.8s ease-in-out infinite;
+}
+
+.kicker-dot::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--dot-size) * -0.65);
+  border-radius: 50%;
+  background: var(--dot-ring);
+  animation: kicker-ring-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes kicker-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+@keyframes kicker-ring-pulse {
+  0%   { transform: scale(0.8); opacity: 0.6; }
+  60%  { transform: scale(2.5); opacity: 0;   }
+  100% { transform: scale(0.8); opacity: 0;   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kicker-dot,
+  .kicker-dot::after { animation: none; }
+}
+
+/* ─── CARD COMPONENT ─────────────────────────────────────────────────────── */
+/* Dark card shell — used for work items (index) and experience items (info). */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: clamp(1.75rem, 3vh, 2.5rem) clamp(1.5rem, 3vw, 2.75rem);
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Uniform metadata grid: columns fill available width, min 120px each. */
+.card-meta {
+  display: grid;
+  grid-template-columns: repeat(var(--meta-cols, 3), minmax(120px, 1fr));
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.card-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+.card-meta-lbl {
+  font-family: var(--mono, 'Courier New', monospace);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim); /* #a09c97 → 7.9:1 on #000 — WCAG AA ✓ */
+  transition: color 0.3s ease;
+}
+.card-meta-val {
+  font-size: 0.875rem;
+  line-height: 1.3;
+  color: var(--text); /* #F4F4F0 → 18.5:1 on #000 — WCAG AAA ✓ */
+  transition: color 0.3s ease;
+}
+@media (max-width: 480px) {
+  .card-meta { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 0; }
+}
+
+/* ─── BODY TEXT ─────────────────────────────────────────────────────────── */
+/* Shared prose component — use on reading-length paragraphs across all pages. */
+.body-text {
+  font-size: clamp(1rem, 1.5vw, 1.0625rem);
+  line-height: 1.85;
+  color: var(--text);
+  max-width: 620px;
+}
+@media (max-width: 480px) {
+  .body-text { font-size: 0.9375rem; }
+}
+
+/* ─── PREFOOTER / CONTACT CTA ────────────────────────────────────────────── */
+/* Cream-background contact section injected via prefooter.js on every page. */
+.contact-section {
+  padding: clamp(4rem, 9vh, 8rem) 0;
+  background: #F6F0DF;
+}
+
+.contact-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+}
+
+.contact-hl {
+  font-family: var(--sans);
+  font-size: clamp(1.75rem, 3.75vw, 3rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  max-width: 520px;
+}
+
+.contact-hl em {
+  font-style: normal;
+  font-weight: 500;
+}
+
+.nowrap { white-space: nowrap; }
+
+/* Inverted (cream bg) overrides */
+.contact-section .contact-hl       { color: var(--bg); }
+.contact-section .contact-hl em    { color: var(--bg); }
+.contact-section .email-btn {
+  color: #F4F4F0;
+  background: var(--bg);
+  border-color: var(--bg);
+}
+.contact-section .email-btn .arr   { color: inherit; }
+
+/* On cream bg, hover reverts to ghost */
+.contact-section .email-btn:hover {
+  background:   transparent !important;
+  color:        var(--bg) !important;
+  border-color: rgba(0,0,0,0.35) !important;
+}
+.contact-section .email-btn:hover .arr { color: inherit !important; }
+
+@media (max-width: 900px) {
+  .contact-inner { flex-direction: column; align-items: flex-start; gap: 2rem; }
+}
+@media (max-width: 480px) {
+  .contact-inner { gap: 1.5rem; }
+  .contact-hl    { font-size: clamp(1.5rem, 7vw, 2rem); }
+}
+
+/* ─── OUTCOMES TABLE ─────────────────────────────────────────────────── */
+/* Flexible stat grid for case study outcomes. Columns auto-fit to count. */
+.cs-outcomes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.cs-outcome {
+  background: var(--bg);
+  padding: clamp(1.75rem, 3.5vh, 2.75rem) clamp(1.5rem, 2.5vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.cs-outcome-val {
+  font-family: var(--mono, 'Courier New', monospace);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.cs-outcome-label {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+@media (max-width: 500px) {
+  .cs-outcomes { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── PAGE HERO INNER ────────────────────────────────────────────────────── */
+/* Vertical centering between nav and hero image. Apply to the inner wrapper  */
+/* of every hero section sitewide. Padding guards minimum breathing room;     */
+/* justify-content: center does the actual centering.                          */
+.page-hero-inner {
+  min-height: calc(100svh - 93px - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: clamp(3rem, 6vh, 5rem);
+  padding-bottom: clamp(3rem, 6vh, 5rem);
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .page-hero-inner { min-height: calc(100svh - 85px - 40px); }
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: clamp(2.5rem, 5vh, 4rem) 0 clamp(1.5rem, 3vh, 2.5rem);
+}
+
+.footer-upper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 3rem;
+  padding-bottom: clamp(1.5rem, 3vh, 2.25rem);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(1.25rem, 2.5vh, 2rem);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.footer-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+  opacity: 0.8;
+}
+
+.footer-seo {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--text-dim); /* #a09c97 — 8.2:1 on #000 ✓ */
+  max-width: 460px;
+  margin: 0;
+}
+
+.footer-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-nav a {
+  font-family: var(--mono, 'Courier New', monospace);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim); /* #a09c97 — 8.2:1 on #000 ✓ */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-nav a:hover { color: var(--accent); }
+
+.footer-lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy,
+.footer-locale {
+  font-family: var(--mono, 'Courier New', monospace);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim); /* #a09c97 — 8.2:1 on #000 ✓ */
+}
+
+@media (max-width: 900px) {
+  .footer-upper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  .footer-actions {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}

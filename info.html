@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Info · Rich Lim · Senior Product Designer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="description" content="Senior designer. Design lead. Builder of brands and products that hold up — Rich Lim, 15 years." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────────── */
+    :root {
+      --bg:          #000000;
+      --surface:     #111111;
+      --border:      #1f1f1f;
+      --border-dim:  rgba(255,255,255,0.05);
+      --text:        #F4F4F0;
+      --text-dim:    #a09c97;
+      --text-sub:    #6b6763;
+      --accent:      #B6DAC7;
+
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'Space Mono', 'Courier New', monospace;
+
+      --max-w: 1600px;
+      --px:    clamp(1rem, 2.5vw, 2.5rem);
+    }
+
+    /* ─── BASE ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      background-image: radial-gradient(ellipse 90% 60% at 50% -5%, rgba(182, 218, 199, 0.13) 0%, rgba(182, 218, 199, 0.04) 45%, transparent 70%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────────────────────── */
+    .cursor-dot {
+      position: fixed; left: -200px; top: -200px;
+      width: 5px; height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-ring {
+      position: fixed; left: -200px; top: -200px;
+      width: 30px; height: 30px;
+      border: 1px solid rgba(182, 218, 199, 0.3);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.35s ease, height 0.35s ease,
+                  border-color 0.35s ease, background 0.35s ease;
+    }
+    .cursor-dot.is-hover { width: 8px; height: 8px; background: var(--text); }
+    .cursor-ring.is-hover {
+      width: 50px; height: 50px;
+      border-color: rgba(182, 218, 199, 0.15);
+      background: rgba(182, 218, 199, 0.03);
+    }
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ─── ACCESSIBILITY ──────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      padding: 0.5rem 1.25rem;
+      background: var(--accent); color: var(--bg);
+      font-family: var(--sans); font-size: 0.875rem; font-weight: 500;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    :focus:not(:focus-visible) { outline: none; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────────── */
+    .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 40px; }
+
+    /* ─── NAV ────────────────────────────────────────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: transparent;
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
+    .wordmark { display: flex; align-items: center; }
+    .wordmark img { height: 2.75rem; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.8125rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a[aria-current="page"] {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    .nav-ext { display: inline-flex; align-items: baseline; gap: 0.2em; }
+    .nav-ext-icon { font-size: 0.75em; line-height: 1; color: var(--text-dim); transition: color 0.15s; }
+    .nav-links a:hover .nav-ext-icon { color: var(--text); }
+    .nav-links .nav-cta {
+      color: var(--text);
+      background: transparent;
+      border-color: rgba(182, 218, 199, 0.35);
+    }
+
+    /* Applied when custom cursor JS initialises */
+    body.js-cursor { cursor: none; }
+    body.js-cursor .nav-toggle { cursor: none; }
+
+    /* ─── HAMBURGER ──────────────────────────────────────────────────── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px; height: 40px;
+      background: none; border: none;
+      padding: 0.5rem; cursor: pointer;
+      z-index: 9997; position: relative;
+      flex-shrink: 0;
+    }
+    .hamburger-line {
+      display: block;
+      width: 20px; height: 1.5px;
+      background: var(--text); border-radius: 1px;
+      transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s ease;
+    }
+    .nav-toggle.is-open .hamburger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.is-open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.is-open .hamburger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ─── SHARED SECTION HEADER ──────────────────────────────────────── */
+    .section-hd {
+      padding: clamp(3.5rem, 7vh, 6rem) 0 1.5rem;
+      display: flex; align-items: baseline; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-hd-label {
+      font-family: var(--sans); font-size: clamp(0.875rem, 1.75vw, 1.25rem);
+      font-weight: 400; letter-spacing: -0.01em; color: var(--text);
+    }
+    .section-hd-count {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-sub);
+    }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────────────────── */
+    .placeholder {
+      background: var(--surface);
+      position: relative; overflow: hidden;
+    }
+    .placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .placeholder-lbl {
+      position: absolute; bottom: 1.25rem; left: 1.25rem;
+      font-family: var(--mono); font-size: 0.5625rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────────────── */
+    .info-hero { }
+    .info-hero-inner {
+    }
+    .info-bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: clamp(3rem, 5vw, 5rem);
+      align-items: start;
+    }
+    .info-bio-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 1.75rem;
+    }
+    .info-bio-hl {
+      font-family: var(--sans);
+      font-size: clamp(2.625rem, 6.5vw, 5.5rem);
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -0.035em;
+      margin-bottom: 2.25rem;
+    }
+    @keyframes gradient-sweep-green {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .info-bio-hl em {
+      font-style: normal;
+      font-weight: 500;
+      background: linear-gradient(90deg, #FFD28C, #FFA0BE, #BEAAFF, #8CDCFF, #FFD28C);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: gradient-sweep-green 6s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .info-bio-hl em {
+        background: none;
+        -webkit-text-fill-color: #5DBE90;
+        color: #5DBE90;
+        animation: none;
+      }
+    }
+    .info-bio-sub {
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+      line-height: 1.75; color: #b5b1ac;
+      max-width: 560px;
+    }
+    .info-portrait { width: 100%; aspect-ratio: 3 / 4; border-radius: 12px; object-fit: cover; object-position: center top; display: block; }
+
+    /* ─── INFO FEATURE IMAGE ─────────────────────────────────────────── */
+    .info-feature-image {
+      width: 100%;
+      overflow: hidden;
+    }
+    .info-feature-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────────────── */
+    .about-section { }
+    .about-inner {
+      padding: clamp(3rem, 6vh, 5rem) 0 clamp(4rem, 8vh, 6rem);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 6vw, 7rem);
+      align-items: start;
+    }
+    .about-hl {
+      font-family: var(--sans);
+      font-size: clamp(1.375rem, 2.5vw, 2.25rem);
+      font-weight: 500; line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+    .about-body { display: flex; flex-direction: column; gap: 1.25rem; padding-top: 0.125rem; }
+    .about-p { font-size: clamp(1rem, 1.5vw, 1.0625rem); line-height: 1.8; color: #b5b1ac; }
+    .book-call {
+      margin-top: 0.5rem; width: fit-content;
+      color: var(--text); background: transparent;
+      border-color: rgba(182, 218, 199, 0.35);
+    }
+    .book-call .arr { color: inherit; }
+
+    /* ─── PROCESS ────────────────────────────────────────────────────── */
+    .process-section { }
+    .process-grid {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      padding-top: clamp(2.5rem, 5vh, 4rem);
+      padding-bottom: clamp(3rem, 6vh, 5rem);
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .process-grid::-webkit-scrollbar { display: none; }
+    .process-card {
+      flex: 0 0 clamp(280px, 30vw, 340px);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem 2.25rem;
+      scroll-snap-align: start;
+    }
+    .process-num {
+      font-family: var(--mono);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--text-sub);
+      margin-bottom: 1.75rem;
+    }
+    .process-name {
+      font-family: var(--sans); font-size: clamp(1rem, 1.5vw, 1.25rem);
+      font-weight: 500; letter-spacing: -0.02em; margin-bottom: 0.875rem;
+      color: var(--text);
+    }
+    .process-desc {
+      font-family: var(--sans); font-size: 0.9375rem;
+      line-height: 1.7; color: var(--text-dim);
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────────────── */
+    .exp-list {
+      display: flex; flex-direction: column;
+      padding: 0 0 clamp(3rem, 6vh, 5rem);
+    }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: clamp(3rem, 5vw, 5rem);
+      padding: clamp(2rem, 4vh, 3rem) 0;
+    }
+    .exp-item + .exp-item { border-top: 1px solid var(--border); }
+    .exp-left {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.875rem, 1.5vh, 1.125rem);
+    }
+    .exp-logo {
+      height: 26px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 1;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+    /* Cendyn's viewBox has a decorative mark consuming ~30% of its height,
+       making letterforms appear smaller at equal height — compensate visually. */
+    .exp-logo[alt="Cendyn"] { height: 38px; }
+    .exp-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-align: right;
+    }
+    .exp-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .exp-meta-lbl {
+      font-family: var(--mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .exp-meta-val {
+      font-size: 0.875rem;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .exp-desc {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: #b5b1ac;
+      max-width: 75%;
+    }
+    /* ─── PERSONAL ───────────────────────────────────────────────────── */
+    .personal-section {
+      padding: clamp(4rem, 9vh, 7rem) 0;
+    }
+    .personal-statement {
+      font-family: var(--sans);
+      font-size: clamp(1.125rem, 2.5vw, 2rem);
+      font-weight: 400; line-height: 1.5;
+      letter-spacing: -0.015em;
+      color: var(--text); max-width: 800px;
+    }
+
+    /* ─── PERSONAL PHOTOS ───────────────────────────────────────────── */
+    .personal-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.75rem, 1.5vw, 1.25rem);
+      margin-top: clamp(3rem, 6vh, 4rem);
+      padding-bottom: clamp(1rem, 3vh, 2rem);
+    }
+    .personal-photo {
+      display: flex;
+      flex-direction: column;
+    }
+    .personal-photo:nth-child(2) { transition-delay: 0.1s; }
+    .personal-photo:nth-child(3) { transition-delay: 0.2s; }
+    .personal-photo-img {
+      overflow: hidden;
+      border-radius: 6px;
+      aspect-ratio: 4 / 5;
+      position: relative;
+    }
+    .personal-photo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.65s cubic-bezier(0.25, 0, 0, 1);
+    }
+    .personal-photo:hover .personal-photo-img img {
+      transform: scale(1.04);
+    }
+    .personal-photo-caption {
+      font-family: var(--sans);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 3rem 1.125rem 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 50%, transparent 100%);
+      color: rgba(255,255,255,0.85);
+      transform: translateY(4px);
+      opacity: 0.85;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+    .personal-photo:hover .personal-photo-caption {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    @media (max-width: 640px) {
+      .personal-photos { grid-template-columns: 1fr; gap: 2rem; }
+      .personal-photo-img { aspect-ratio: 3 / 2; }
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────── */
+    .site-footer { padding: 3rem 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .footer-copy, .footer-tz {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim);
+    }
+
+    /* ─── SCROLL ANIMATION ───────────────────────────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.65s ease, transform 0.65s ease; }
+      .fade.visible { opacity: 1; transform: none; }
+    }
+
+    /* ─── RESPONSIVE — TABLET ────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .info-bio-grid { grid-template-columns: 1fr 260px; }
+    }
+    @media (max-width: 900px) {
+      .info-bio-grid { grid-template-columns: 1fr; }
+      .info-portrait { aspect-ratio: 4 / 3; max-width: 360px; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ─── RESPONSIVE — MOBILE ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .wrap { padding: 0 20px; }
+      .nav-ext-secondary { display: none; }
+      .nav-links { gap: 1.75rem; }
+      .wordmark img { height: 2.25rem; }
+
+      body {
+        background-image: radial-gradient(ellipse 100% 40% at 50% 0%, rgba(182, 218, 199, 0.10) 0%, transparent 60%);
+        background-attachment: scroll;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      #nav-menu {
+        position: fixed; inset: 0;
+        background: var(--bg);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 2rem; z-index: 9996;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      #nav-menu.is-open { opacity: 1; pointer-events: auto; }
+      #nav-menu a { font-size: 1.125rem; letter-spacing: 0.04em; }
+      #nav-menu li.nav-ext-secondary { display: block; }
+      #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
+      body.nav-is-open { overflow: hidden; }
+    }
+    @media (max-width: 640px) {
+      .exp-item { grid-template-columns: 1fr; gap: 1.25rem; }
+      .exp-meta { flex-direction: row; gap: 2rem; text-align: left; }
+      .exp-desc { max-width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .process-card { flex: 0 0 min(300px, 82vw); }
+      .exp-meta { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER / NAV
+  ═══════════════════════════════════════════════════════ -->
+  <header class="site-header" id="site-header" role="banner"></header>
+  <script src="nav.js"></script>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════════ -->
+    <section class="info-hero" aria-labelledby="info-hl">
+      <div class="wrap info-hero-inner page-hero-inner">
+        <div class="info-bio-grid">
+
+          <div>
+            <p class="info-bio-label"><span class="kicker-dot" aria-hidden="true"></span>Senior Product Designer · <span id="hero-time" aria-live="polite"></span></p>
+            <h1 class="info-bio-hl" id="info-hl">
+              I have <em>a deep appreciation for nature</em> and thoughtful design.
+            </h1>
+            <p class="info-bio-sub">
+              After years designing products and brands, I realize my best work happens with teams that care about something beyond the screen. Recently, I've deliberately brought AI into that process, as a collaborator and not a shortcut.
+            </p>
+          </div>
+
+          <img
+            class="info-portrait"
+            src="rich-lim-profile.jpg"
+            alt="Rich Lim, Senior Product Designer"
+            loading="eager"
+          />
+
+        </div>
+      </div>
+      <div class="info-feature-image">
+        <img src="about-hero.jpg" alt="Rich Lim in the outdoors" loading="eager" />
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ABOUT
+    ═══════════════════════════════════════════════════════ -->
+    <section class="about-section fade" aria-labelledby="about-hl">
+      <div class="wrap">
+        <div class="section-hd">
+          <h2 class="section-hd-label" id="about-hl">About</h2>
+        </div>
+        <div class="about-inner">
+          <h3 class="about-hl">
+            People first. Craft always.
+          </h3>
+          <div class="about-body">
+            <p class="about-p">
+              I design from a human perspective first. Features, flows, and frameworks come second. That approach has carried me across consumer products, brand systems, and more recently into AI-assisted workflows where keeping things human-centered matters more than ever.
+            </p>
+            <a class="book-call" aria-label="Book a call with Rich Lim"
+               data-cal-link="rich-lim-dopc0w/15min"
+               data-cal-namespace="15min"
+               data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'>
+              Book a Call
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PROCESS
+    ═══════════════════════════════════════════════════════ -->
+    <section class="process-section" aria-labelledby="process-hl">
+      <div class="wrap">
+        <div class="section-hd">
+          <h2 class="section-hd-label" id="process-hl">Strong product processes, loosely held.</h2>
+          <span class="section-hd-count" aria-hidden="true">05 Phases</span>
+        </div>
+
+      <div class="process-grid" role="list">
+
+        <div class="process-card fade" role="listitem">
+          <div class="process-num" aria-hidden="true">01</div>
+          <h3 class="process-name">Define</h3>
+          <p class="process-desc">Clear goals, stakeholder alignment, and a roadmap that actually means something.</p>
+        </div>
+
+        <div class="process-card fade" role="listitem">
+          <div class="process-num" aria-hidden="true">02</div>
+          <h3 class="process-name">Research</h3>
+          <p class="process-desc">I listen before I sketch. User personas, journey maps, and a hard look at the competition.</p>
+        </div>
+
+        <div class="process-card fade" role="listitem">
+          <div class="process-num" aria-hidden="true">03</div>
+          <h3 class="process-name">Design</h3>
+          <p class="process-desc">Concepts that get challenged, prototypes that get tested, and decisions driven by data.</p>
+        </div>
+
+        <div class="process-card fade" role="listitem">
+          <div class="process-num" aria-hidden="true">04</div>
+          <h3 class="process-name">Build</h3>
+          <p class="process-desc">Precise handoffs. Polished assets, tight specs, and flows that give engineering nothing to guess at.</p>
+        </div>
+
+        <div class="process-card fade" role="listitem">
+          <div class="process-num" aria-hidden="true">05</div>
+          <h3 class="process-name">Analyze</h3>
+          <p class="process-desc">I measure what matters, learn fast, and repeat.</p>
+        </div>
+
+      </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         EXPERIENCE
+    ═══════════════════════════════════════════════════════ -->
+    <section class="exp-section" aria-labelledby="exp-hl">
+      <div class="wrap">
+        <div class="section-hd">
+          <h2 class="section-hd-label" id="exp-hl">Experience</h2>
+          <span class="section-hd-count" aria-hidden="true">03 Roles</span>
+        </div>
+        <div class="exp-list">
+
+          <article class="exp-item fade" aria-label="Nearform">
+            <div class="exp-left">
+              <img src="logo-nearform.svg" alt="Nearform" class="exp-logo" />
+              <p class="exp-desc">Global engineering consultancy putting AI at the core of how companies build. I shaped design strategy across North America, led product work for enterprise clients, and helped grow the design practice — managing a small team while staying hands-on with craft.</p>
+            </div>
+            <dl class="exp-meta">
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Role</dt>
+                <dd class="exp-meta-val">Senior Product Designer, Manager</dd>
+              </div>
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Years</dt>
+                <dd class="exp-meta-val">2021–2026</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="exp-item fade" aria-label="Big Sea">
+            <div class="exp-left">
+              <img src="logo-bigsea.svg" alt="Big Sea" class="exp-logo" />
+              <p class="exp-desc">Digital agency helping purpose-driven brands grow through strategy, storytelling, and beautifully crafted digital experiences. I led projects end-to-end — from brand positioning to production-ready design — collaborating with founders and nonprofit leaders on work that actually moved the needle.</p>
+            </div>
+            <dl class="exp-meta">
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Role</dt>
+                <dd class="exp-meta-val">Senior Designer</dd>
+              </div>
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Years</dt>
+                <dd class="exp-meta-val">2017–2021</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="exp-item fade" aria-label="Cendyn">
+            <div class="exp-left">
+              <img src="logo-cendyn.svg" alt="Cendyn" class="exp-logo" />
+              <p class="exp-desc">Global hospitality technology company connecting hoteliers with the guests who matter most. I art directed premium digital experiences for luxury and boutique hotel properties, balancing tight brand standards with the constraints of hotel CMS platforms — and helped scale the design team's output over five years.</p>
+            </div>
+            <dl class="exp-meta">
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Role</dt>
+                <dd class="exp-meta-val">Art Director</dd>
+              </div>
+              <div class="exp-meta-item">
+                <dt class="exp-meta-lbl">Years</dt>
+                <dd class="exp-meta-val">2012–2017</dd>
+              </div>
+            </dl>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PERSONAL
+    ═══════════════════════════════════════════════════════ -->
+    <section class="personal-section fade" aria-label="Personal">
+      <div class="wrap">
+        <p class="personal-statement">
+          Outside of work, I'm mostly a dad &amp; husband who has a passion for being outside.
+        </p>
+        <div class="personal-photos">
+          <figure class="personal-photo fade">
+            <div class="personal-photo-img">
+              <img src="rl-family.jpeg" alt="Rich Lim with family" loading="lazy" />
+              <figcaption class="personal-photo-caption">I love my family, even my kids.</figcaption>
+            </div>
+          </figure>
+          <figure class="personal-photo fade">
+            <div class="personal-photo-img">
+              <img src="rl-mountains.jpg" alt="The mountains" loading="lazy" />
+              <figcaption class="personal-photo-caption">The mountains give me life.</figcaption>
+            </div>
+          </figure>
+          <figure class="personal-photo fade">
+            <div class="personal-photo-img">
+              <img src="rl-running.jpg" alt="Running" loading="lazy" />
+              <figcaption class="personal-photo-caption">Running has taught me so much.</figcaption>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div id="prefooter"></div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="site-footer" id="site-footer" role="contentinfo"></footer>
+
+  <script src="prefooter.js"></script>
+  <script src="footer.js"></script>
+  <script>
+    // Scroll animation
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+    // Custom cursor — pointer devices only
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.body.classList.add('js-cursor');
+
+      const dot  = document.querySelector('.cursor-dot');
+      const ring = document.querySelector('.cursor-ring');
+      let mx = -200, my = -200, rx = -200, ry = -200;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      (function tick() {
+        rx += (mx - rx) * 0.11;
+        ry += (my - ry) * 0.11;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(tick);
+      })();
+
+      document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('is-hover'); ring.classList.add('is-hover'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
+      });
+
+      document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+      document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+      // Invert cursor on light sections
+      document.querySelectorAll('.process-card').forEach(section => {
+        section.addEventListener('mouseenter', () => {
+          dot.style.background = '#1a1a1a';
+          ring.style.borderColor = 'rgba(0,0,0,0.22)';
+        });
+        section.addEventListener('mouseleave', () => {
+          dot.style.background = '';
+          ring.style.borderColor = '';
+        });
+      });
+    }
+
+  </script>
+
+  <!-- Cal.com element-click embed -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "15min", {origin:"https://app.cal.com"});
+    Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+  </script>
+
+</body>
+</html>
