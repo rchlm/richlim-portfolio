@@ -372,13 +372,21 @@
       flex-direction: column;
       gap: clamp(0.875rem, 1.5vh, 1.125rem);
     }
+    .exp-logo-link {
+      display: inline-block;
+      line-height: 0;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
     .exp-logo {
       height: 25px;
       width: auto;
       filter: brightness(0) invert(1);
       opacity: 1;
-      flex-shrink: 0;
-      align-self: flex-start;
+      transition: transform 0.2s ease;
+    }
+    .exp-logo-link:hover .exp-logo {
+      transform: scale(1.08);
     }
     /* Cendyn's viewBox="0 0 144 48": mark occupies the top ~31% (y=0–15),
        letterforms run y=15–48 (~69% of height). To match 25px visual text
@@ -681,7 +689,7 @@
 
           <article class="exp-item fade" aria-label="Nearform">
             <div class="exp-left">
-              <img src="/logo-nearform.svg" alt="Nearform" class="exp-logo" />
+              <a href="https://nearform.com/" target="_blank" rel="noopener noreferrer" class="exp-logo-link" aria-label="Nearform (opens in new tab)"><img src="/logo-nearform.svg" alt="Nearform" class="exp-logo" /></a>
               <p class="exp-desc">Global engineering consultancy putting AI at the core of how companies build. I shaped design strategy across North America, led product work for enterprise clients, and helped grow the design practice — managing a small team while staying hands-on with craft.</p>
             </div>
             <dl class="exp-meta">
@@ -698,7 +706,7 @@
 
           <article class="exp-item fade" aria-label="Big Sea">
             <div class="exp-left">
-              <img src="/logo-bigsea.svg" alt="Big Sea" class="exp-logo" />
+              <a href="https://bigsea.co/" target="_blank" rel="noopener noreferrer" class="exp-logo-link" aria-label="Big Sea (opens in new tab)"><img src="/logo-bigsea.svg" alt="Big Sea" class="exp-logo" /></a>
               <p class="exp-desc">Digital agency helping purpose-driven brands grow through strategy, storytelling, and beautifully crafted digital experiences. I led projects end-to-end — from brand positioning to production-ready design — collaborating with founders and nonprofit leaders on work that actually moved the needle.</p>
             </div>
             <dl class="exp-meta">
@@ -715,7 +723,7 @@
 
           <article class="exp-item fade" aria-label="Cendyn">
             <div class="exp-left">
-              <img src="/logo-cendyn.svg" alt="Cendyn" class="exp-logo" />
+              <a href="https://www.cendyn.com/" target="_blank" rel="noopener noreferrer" class="exp-logo-link" aria-label="Cendyn (opens in new tab)"><img src="/logo-cendyn.svg" alt="Cendyn" class="exp-logo" /></a>
               <p class="exp-desc">Global hospitality technology company connecting hoteliers with the guests who matter most. I art directed premium digital experiences for luxury and boutique hotel properties, balancing tight brand standards with the constraints of hotel CMS platforms — and helped scale the design team's output over five years.</p>
             </div>
             <dl class="exp-meta">

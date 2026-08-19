@@ -197,19 +197,8 @@
     }
 
     /* ─── TENNIS BALL ────────────────────────────────────────────────── */
-    .tennis-ball {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: #B6DAC7;
-      pointer-events: none;
-      will-change: left, top, transform;
-      z-index: 0;
-    }
-    /* Content sits above ball */
     .cs-hero-head,
-    .cs-hero-subtitle { position: relative; z-index: 1; }
+    .cs-hero-subtitle { position: relative; }
     .cs-hero-head {
       display: flex;
       flex-direction: column;
@@ -563,8 +552,6 @@
     <section class="cs-hero" aria-labelledby="cs-title">
       <div class="cs-hero-inner wrap page-hero-inner">
 
-        <!-- abstract tennis ball — bounces behind hero content -->
-        <div class="tennis-ball" id="tennis-ball" aria-hidden="true"></div>
 
         <div class="cs-hero-head">
           <img class="cs-hero-logo" src="/atp-wta-logos.svg" alt="ATP &amp; WTA" />
@@ -836,57 +823,6 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
-    /* ─── TENNIS BALL BOUNCE ────────────────────────────────── */
-    (function () {
-      var ball = document.getElementById('tennis-ball');
-      if (!ball) return;
-      var container = ball.parentElement;
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        ball.style.opacity = '0.12';
-        ball.style.left = '5%';
-        ball.style.top  = '20%';
-        return;
-      }
-
-      var bW = ball.offsetWidth;
-      var bH = ball.offsetHeight;
-      var cW = container.offsetWidth;
-      var cH = container.offsetHeight;
-
-      window.addEventListener('resize', function () {
-        cW = container.offsetWidth;
-        cH = container.offsetHeight;
-      }, { passive: true });
-
-      // start somewhere in the middle third so it's visible on load
-      var x = cW * 0.2 + Math.random() * cW * 0.4;
-      var y = cH * 0.1 + Math.random() * cH * 0.5;
-
-      // avoid angles that are too shallow (< 20° from horizontal/vertical)
-      var angle = (Math.PI * 0.22) + Math.random() * (Math.PI * 0.56);
-      if (Math.random() > 0.5) angle += Math.PI;
-
-      var speed = window.matchMedia('(max-width: 640px)').matches ? 1.4 : 0.48;
-      var vx = Math.cos(angle) * speed;
-      var vy = Math.sin(angle) * speed;
-      function tick() {
-        x += vx;
-        y += vy;
-
-        if (x <= 0)            { x = 0;          vx =  Math.abs(vx); }
-        else if (x >= cW - bW) { x = cW - bW;    vx = -Math.abs(vx); }
-        if (y <= 0)            { y = 0;          vy =  Math.abs(vy); }
-        else if (y >= cH - bH) { y = cH - bH;    vy = -Math.abs(vy); }
-
-        ball.style.left = x + 'px';
-        ball.style.top  = y + 'px';
-
-        requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    }());
 
   </script>
 
