@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme init: must run before CSS to prevent flash of wrong theme -->
+  <script>if(localStorage.getItem('rl-theme')==='light')document.documentElement.setAttribute('data-theme','light');</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One SEARHC Experience · Rich Lim</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content="Research and discovery work redesigning a fragmented patient portal into one unified mobile-first experience for a regional health system serving remote Southeast Alaska communities." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/shared.css" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────────────── */
+    :root {
+      --bg:          #000000;
+      --surface:     #111111;
+      --border:      #1f1f1f;
+      --border-dim:  rgba(255,255,255,0.05);
+      --text:        #F4F4F0;
+      --text-dim:    #a09c97;
+      --text-sub:    #6b6763;
+      --accent:      #B6DAC7;
+
+      --sans:  'Inter', system-ui, sans-serif;
+      --mono:  'Space Mono', 'Courier New', monospace;
+
+      --max-w: 1600px;
+      --px:    clamp(1rem, 2.5vw, 2.5rem);
+    }
+
+    /* ─── BASE ───────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      background-image: radial-gradient(ellipse 90% 60% at 50% -5%, rgba(182,218,199,0.10) 0%, rgba(182,218,199,0.03) 45%, transparent 70%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────────────────────── */
+    .cursor-dot {
+      position: fixed; left: -200px; top: -200px;
+      width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+    }
+    .cursor-ring {
+      position: fixed; left: -200px; top: -200px;
+      width: 30px; height: 30px;
+      border: 1px solid rgba(182,218,199,0.3);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.35s ease, height 0.35s ease,
+                  border-color 0.35s ease, background 0.35s ease;
+    }
+    .cursor-dot.is-hover { width: 16px; height: 16px; background: var(--text); }
+    .cursor-ring.is-hover {
+      width: 50px; height: 50px;
+      border-color: rgba(182,218,199,0.15);
+      background: rgba(182,218,199,0.03);
+    }
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ─── ACCESSIBILITY ──────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      padding: 0.5rem 1.25rem;
+      background: var(--accent); color: var(--bg);
+      font-family: var(--sans); font-size: 0.875rem; font-weight: 500;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    :focus:not(:focus-visible) { outline: none; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────────────── */
+    .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 40px; }
+
+    /* ─── NAV ────────────────────────────────────────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: transparent;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    @media (min-width: 900px) {
+      .site-header { will-change: transform; }
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
+    .wordmark { display: flex; align-items: center; }
+    .wordmark img { height: 2.75rem; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.8125rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-dim); transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a[aria-current="page"] {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    .nav-ext { display: inline-flex; align-items: baseline; gap: 0.2em; }
+    .nav-ext-icon { font-size: 0.75em; line-height: 1; color: var(--text-dim); transition: color 0.15s; }
+    .nav-links a:hover .nav-ext-icon { color: var(--text); }
+    .nav-links .nav-cta {
+      color: var(--text);
+      background: transparent;
+      border-color: rgba(182, 218, 199, 0.35);
+    }
+
+    body.js-cursor { cursor: none; }
+    body.js-cursor .nav-toggle { cursor: none; }
+
+    /* ─── HAMBURGER ──────────────────────────────────────────────────── */
+    .nav-toggle {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 40px; height: 40px;
+      background: none; border: none; padding: 0.5rem; cursor: pointer;
+      z-index: 9997; position: relative; flex-shrink: 0;
+    }
+    .hamburger-line {
+      display: block; width: 20px; height: 1.5px;
+      background: var(--text); border-radius: 1px; transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s ease;
+    }
+    .nav-toggle.is-open .hamburger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.is-open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.is-open .hamburger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ─── BACK LINK ──────────────────────────────────────────────────── */
+    .cs-back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim); transition: color 0.15s;
+      margin-bottom: 2.5rem;
+    }
+    .cs-back-btn:hover { color: var(--text); }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+      .fade.visible { opacity: 1; transform: none; }
+    }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────────────────── */
+    .placeholder {
+      background: var(--surface); position: relative; overflow: hidden;
+    }
+    .placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .placeholder-lbl {
+      position: absolute; bottom: 1.25rem; left: 1.25rem;
+      font-family: var(--mono); font-size: 0.5625rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    /* ─── CASE STUDY HERO ────────────────────────────────────────────── */
+    .cs-hero { padding-bottom: 0; }
+    .cs-hero-inner { position: relative; }
+    .cs-hero-head {
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .cs-hero-title {
+      font-family: var(--sans);
+      font-size: clamp(2.625rem, 6.5vw, 5.5rem);
+      font-weight: 500; line-height: 1;
+      letter-spacing: -0.035em; color: var(--text);
+    }
+    .cs-hero-title em { font-style: normal; color: var(--text); }
+    .cs-hero-logo { height: 32px; width: auto; display: block; }
+    @media (max-width: 640px) { .cs-hero-logo { height: 24px; } }
+    .cs-hero-subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+      line-height: 1.7; color: var(--text);
+      max-width: 560px;
+      margin-bottom: clamp(2rem, 5vh, 4rem);
+    }
+
+    /* ─── HERO IMAGE ─────────────────────────────────────────────────── */
+    .cs-hero-image { width: 100%; overflow: hidden; }
+    .cs-hero-image img { width: 100%; height: auto; display: block; }
+
+    /* ─── META BAR ───────────────────────────────────────────────────── */
+    .cs-meta {
+      position: sticky; top: 0; z-index: 101;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-meta-inner { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .cs-meta-item {
+      padding: clamp(1.5rem, 3vh, 2.25rem) clamp(1rem, 2vw, 1.5rem);
+      display: flex; flex-direction: column; gap: 0.5rem;
+      align-items: center; text-align: center;
+    }
+    .cs-meta-item + .cs-meta-item { border-left: 1px solid var(--border); }
+    .cs-meta-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .cs-meta-value {
+      font-family: var(--sans); font-size: 0.875rem;
+      font-weight: 400; line-height: 1.3; color: var(--text);
+    }
+
+    /* ─── BODY LAYOUT ────────────────────────────────────────────────── */
+    .cs-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: clamp(4rem, 8vw, 8rem);
+      align-items: start;
+      padding-top: clamp(4rem, 8vh, 7rem);
+      padding-bottom: clamp(4rem, 8vh, 7rem);
+    }
+
+    /* ─── SIDEBAR ────────────────────────────────────────────────────── */
+    .cs-sidebar { position: sticky; top: 6rem; }
+    .cs-sidebar-section { display: flex; flex-direction: column; gap: 0.875rem; }
+    .cs-sidebar-section + .cs-sidebar-section {
+      margin-top: 2.5rem; padding-top: 0;
+    }
+    .cs-sidebar-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .cs-sidebar-text { font-size: 0.875rem; line-height: 1.75; color: var(--text); }
+    .cs-sidebar-role { font-size: 0.875rem; color: var(--text); }
+
+    /* ─── MAIN CONTENT ───────────────────────────────────────────────── */
+    .cs-content {
+      display: flex; flex-direction: column;
+      gap: clamp(4rem, 9vh, 7rem); min-width: 0;
+    }
+    .cs-section { display: flex; flex-direction: column; gap: 2.5rem; }
+    .cs-section-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cs-pullquote {
+      font-family: var(--sans);
+      font-size: clamp(1.25rem, 2.25vw, 1.875rem);
+      font-weight: 500; font-style: normal;
+      line-height: 1.3; letter-spacing: -0.02em; color: var(--text);
+    }
+    .cs-pullquote-box {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 2.25rem 2.25rem;
+    }
+
+    /* ─── WHAT WE DID CARDS ──────────────────────────────────────────── */
+    .cs-work-grid {
+      display: flex; gap: 1.25rem;
+      overflow-x: auto;
+      padding-top: 0.25rem; padding-bottom: 0.5rem;
+      padding-left: 0; padding-right: 2rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .cs-work-grid::-webkit-scrollbar { display: none; }
+    .cs-work-card {
+      flex: 0 0 clamp(240px, 26vw, 300px);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem 2.25rem;
+      scroll-snap-align: start;
+    }
+    .cs-work-card-num {
+      font-family: var(--mono);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; line-height: 1;
+      letter-spacing: -0.03em; color: var(--text-sub);
+      margin-bottom: 1.75rem;
+    }
+    .cs-work-card-title {
+      font-family: var(--sans); font-size: clamp(1rem, 1.5vw, 1.125rem);
+      font-weight: 500; letter-spacing: -0.02em; margin-bottom: 0.875rem;
+      color: var(--text);
+    }
+    .cs-work-card-desc {
+      font-family: var(--sans); font-size: 0.9375rem;
+      line-height: 1.7; color: var(--text-dim);
+    }
+
+    /* ─── IN-CONTENT IMAGE ───────────────────────────────────────────── */
+    .cs-image { width: 100%; border-radius: 12px; overflow: hidden; }
+    .cs-image img { width: 100%; height: auto; display: block; }
+
+    /* ─── PAGINATION ─────────────────────────────────────────────────── */
+    .cs-pagination { border-top: 1px solid var(--border); }
+    .cs-pagination-inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 140px; }
+    .cs-pag-item {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: clamp(2rem, 4vh, 3rem) 0; gap: 0.625rem;
+    }
+    .cs-pag-item + .cs-pag-item {
+      border-left: 1px solid var(--border);
+      padding-left: clamp(1.5rem, 3vw, 3rem);
+      align-items: flex-end; text-align: right;
+      transition: border-color 0.2s ease;
+    }
+    .cs-pag-item + .cs-pag-item:hover { border-left-color: var(--accent); }
+    .cs-pag-direction {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    .cs-pag-item:last-child .cs-pag-direction { justify-content: flex-end; }
+    .cs-pag-title {
+      font-family: var(--sans);
+      font-size: clamp(1rem, 2vw, 1.375rem);
+      font-weight: 500; letter-spacing: -0.02em;
+      color: var(--text); transition: color 0.2s ease;
+    }
+    .cs-pag-sub { font-size: 0.875rem; color: var(--text-dim); transition: color 0.2s ease; }
+    .cs-pag-item:hover .cs-pag-title { color: var(--accent); }
+
+    /* ─── MOBILE ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .cs-body { grid-template-columns: 1fr; gap: clamp(3rem, 6vh, 5rem); }
+      .cs-sidebar { position: static; }
+      .cs-sidebar-section + .cs-sidebar-section {
+        display: grid; grid-template-columns: 1fr 1fr;
+        align-items: start; gap: 1rem;
+        margin-top: 0; padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
+      }
+      .cs-sidebar-section:first-child {
+        display: grid; grid-template-columns: 1fr 1fr;
+        align-items: start; gap: 1rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .wrap { padding: 0 20px; }
+      .wordmark img { height: 2.25rem; }
+      .nav-ext-secondary { display: none; }
+      .nav-links { gap: 1.75rem; }
+      .cs-meta { position: static; }
+      .cs-back-btn { margin-top: 1.5rem; display: block; }
+      .cs-pagination { margin-top: 2rem; }
+      .cs-meta-inner { grid-template-columns: repeat(2, 1fr); }
+      .cs-meta-item:nth-child(3) { border-left: none; }
+      .cs-meta-item:nth-child(3),
+      .cs-meta-item:nth-child(4) { border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 640px) {
+      .nav-toggle { display: flex; }
+      #nav-menu {
+        position: fixed; inset: 0;
+        background: var(--bg);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 2rem; z-index: 9996;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      #nav-menu.is-open { opacity: 1; pointer-events: auto; }
+      #nav-menu a { font-size: 1.125rem; letter-spacing: 0.04em; }
+      #nav-menu li.nav-ext-secondary { display: block; }
+      #nav-menu .nav-cta { padding: 0.875rem 2rem; font-size: 0.875rem; }
+      body.nav-is-open { overflow: hidden; }
+      .cs-hero-title { font-size: clamp(3rem, 12vw, 4.5rem); }
+      .cs-hero-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
+      .cs-image img { aspect-ratio: 3 / 4; object-fit: cover; object-position: center top; }
+      .cs-sidebar-section,
+      .cs-sidebar-section + .cs-sidebar-section,
+      .cs-sidebar-section:first-child { display: flex; flex-direction: column; gap: 0.75rem; }
+      .cs-sidebar-section + .cs-sidebar-section { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+      .cs-work-card { flex: 0 0 min(280px, 80vw); }
+    }
+    @media (max-width: 500px) {
+      .cs-meta-inner { grid-template-columns: 1fr 1fr; }
+      .cs-pagination-inner { grid-template-columns: 1fr; }
+      .cs-pag-item + .cs-pag-item {
+        border-left: none; border-top: 1px solid var(--border);
+        padding-left: 0; align-items: flex-start; text-align: left;
+      }
+      .cs-pag-item:last-child .cs-pag-direction { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER / NAV
+  ═══════════════════════════════════════════════════════ -->
+  <header class="site-header" id="site-header" role="banner"></header>
+  <script src="/nav.js"></script>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════════════════════ -->
+    <section class="cs-hero" aria-labelledby="cs-title">
+      <div class="cs-hero-inner wrap page-hero-inner">
+
+        <div class="cs-hero-head">
+          <img class="cs-hero-logo" src="/logos/searhc-logo.svg" alt="SEARHC" />
+          <h1 class="cs-hero-title" id="cs-title">
+            One <em>SEARHC</em> Experience
+          </h1>
+        </div>
+
+        <p class="cs-hero-subtitle">Southeast Alaska Regional Health Consortium serves patients scattered across a network of island and mainland communities, many reachable only by plane or ferry. The ask was to take a fragmented patient portal and rebuild it into a single mobile-first experience that could hold the whole system together.</p>
+
+      </div>
+
+      <div class="cs-hero-image placeholder" style="aspect-ratio: 16 / 9;">
+        <span class="placeholder-lbl" aria-hidden="true">Hero Image — searhc-hero.jpg</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         META BAR
+    ═══════════════════════════════════════════════════════ -->
+    <section class="cs-meta" aria-label="Project details">
+      <div class="wrap">
+        <div class="cs-meta-inner">
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Role</span>
+            <span class="cs-meta-value">UX / Design Lead</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Client</span>
+            <span class="cs-meta-value">SEARHC</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Scope</span>
+            <span class="cs-meta-value">Research &amp; Discovery, Native Mobile</span>
+          </div>
+          <div class="cs-meta-item">
+            <span class="cs-meta-label">Year</span>
+            <span class="cs-meta-value">2026 · Ongoing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         BODY — SIDEBAR + CONTENT
+    ═══════════════════════════════════════════════════════ -->
+    <div class="cs-body wrap">
+
+      <!-- SIDEBAR -->
+      <aside class="cs-sidebar" aria-label="Project overview">
+        <a href="/#work" class="cs-back-btn" aria-label="Back to all work">← All Work</a>
+        <div class="cs-sidebar-section fade">
+          <p class="cs-sidebar-label">Overview</p>
+          <p class="cs-sidebar-text">SEARHC's existing patient portal ran on top of Meditech, its underlying EHR, with scheduling and notifications handled separately by Luma. Patients experienced the seams. The brief was to design a unified app that felt like one product, not a stitched-together set of systems, for a population that includes remote communities, lower digital literacy users, and Tlingit, Haida, and Tsimshian patients whose relationship to the health system carries its own cultural weight.</p>
+        </div>
+        <div class="cs-sidebar-section fade">
+          <p class="cs-sidebar-label">My Role</p>
+          <p class="cs-sidebar-text cs-sidebar-role">UX / Design Lead</p>
+          <p class="cs-sidebar-text">Leading design on the engagement in partnership with Raining Virtue, the delivery partner handling infrastructure and technical architecture. Owned discovery research, information architecture, and the identity and access model, working directly with SEARHC's compliance, clinical, and IT stakeholders across a dozen-plus discovery sessions.</p>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="cs-content">
+
+        <!-- THE PROBLEM -->
+        <section class="cs-section fade" aria-labelledby="cs-problem">
+          <p class="cs-section-label" id="cs-problem">The Problem</p>
+          <p class="body-text">The portal's problems weren't visual. They were structural. Patient identity and digital account identity had never been treated as separate concepts, which made proxy access, minor accounts, and multi-facility records behave inconsistently. Behavioral health data carried federal confidentiality restrictions the rest of the app didn't. And every design assumption had to be checked against what Meditech actually did, not what the team assumed it did.</p>
+          <div class="cs-pullquote-box">
+            <blockquote class="cs-pullquote">
+              How do you design a single digital front door for a health system that spans dozens of communities, an aging EHR, and layers of legal complexity around who's allowed to see what?
+            </blockquote>
+          </div>
+        </section>
+
+        <figure class="cs-image placeholder fade" style="aspect-ratio: 16 / 9;">
+          <span class="placeholder-lbl" aria-hidden="true">Product Image — searhc-product-1.jpg</span>
+        </figure>
+
+        <!-- WHAT WE DID -->
+        <section class="cs-section fade" aria-labelledby="cs-work">
+          <p class="cs-section-label" id="cs-work">What We Did</p>
+          <div class="cs-work-grid" role="list">
+
+            <div class="cs-work-card" role="listitem">
+              <div class="cs-work-card-num" aria-hidden="true">01</div>
+              <h2 class="cs-work-card-title">Untangling Patient Identity from Digital Identity</h2>
+              <p class="cs-work-card-desc">The existing system conflated a person's clinical record with their app login. We worked with SEARHC's identity architect to separate the two: an enterprise patient identity that exists independent of any account, and a digital identity that links to it. That split unlocked three distinct patient journeys, including one that lets a patient schedule and receive care without ever creating an account.</p>
+            </div>
+
+            <div class="cs-work-card" role="listitem">
+              <div class="cs-work-card-num" aria-hidden="true">02</div>
+              <h2 class="cs-work-card-title">An Age-Banded Proxy &amp; Access Model</h2>
+              <p class="cs-work-card-desc">Caregiver and guardian access needed to satisfy HIPAA, Alaska minor consent law, and Meditech's own configuration limits at once. We built a proxy framework around two hard thresholds, ages 13 and 18, where access is granted, staff-mediated, or severed. What looked like a permissions toggle turned out to require its own lifecycle logic.</p>
+            </div>
+
+            <div class="cs-work-card" role="listitem">
+              <div class="cs-work-card-num" aria-hidden="true">03</div>
+              <h2 class="cs-work-card-title">A Dashboard Rebuilt Around Real Usage</h2>
+              <p class="cs-work-card-desc">The original design leaned on a single notification-pill pattern to surface everything needing attention. We replaced it with a true dashboard: structured cards for appointments, medications, results, and messages, each with its own empty state. Card priority was set by actual usage data, not assumption, which is why medications outranked billing.</p>
+            </div>
+
+            <div class="cs-work-card" role="listitem">
+              <div class="cs-work-card-num" aria-hidden="true">04</div>
+              <h2 class="cs-work-card-title">Designing With Cultural Weight, Not Around It</h2>
+              <p class="cs-work-card-desc">A meaningful share of SEARHC's patients are Tlingit, Haida, and Tsimshian. We set a hard rule early: no formline art or language elements without community ownership. Any indigenous design element gets commissioned through local artists and reviewed with the Sealaska Heritage Institute, not generated by the design team in isolation.</p>
+            </div>
+
+            <div class="cs-work-card" role="listitem">
+              <div class="cs-work-card-num" aria-hidden="true">05</div>
+              <h2 class="cs-work-card-title">Discovery Across a Fragmented System Stack</h2>
+              <p class="cs-work-card-desc">Meditech, Luma, Zoom's telehealth infrastructure, and a Salesforce-based travel workflow all had to be reconciled into one coherent architecture. Repeated discovery sessions surfaced gaps between what stakeholders assumed a system did and what it actually did, most notably around adolescent self-registration, which reset a core piece of the access model.</p>
+            </div>
+
+          </div>
+        </section>
+
+        <figure class="cs-image placeholder fade" style="aspect-ratio: 16 / 9;">
+          <span class="placeholder-lbl" aria-hidden="true">Product Image — searhc-product-2.jpg</span>
+        </figure>
+
+        <!-- OUTCOMES -->
+        <section class="cs-section fade" aria-labelledby="cs-outcomes">
+          <p class="cs-section-label" id="cs-outcomes">Outcomes</p>
+
+          <div class="cs-outcomes" role="list">
+            <div class="cs-outcome" role="listitem">
+              <span class="cs-outcome-val">6+</span>
+              <p class="cs-outcome-label">Stakeholder groups aligned across clinical, compliance, and technical teams</p>
+            </div>
+            <div class="cs-outcome" role="listitem">
+              <span class="cs-outcome-val">3</span>
+              <p class="cs-outcome-label">Patient identity journeys mapped and adopted as the architectural foundation</p>
+            </div>
+            <div class="cs-outcome" role="listitem">
+              <span class="cs-outcome-val">12+</span>
+              <p class="cs-outcome-label">Discovery sessions run across behavioral health, identity, and IA workstreams</p>
+            </div>
+            <div class="cs-outcome" role="listitem">
+              <span class="cs-outcome-val">Ongoing</span>
+              <p class="cs-outcome-label">Engagement in active delivery, building on the discovery foundation</p>
+            </div>
+          </div>
+
+          <p class="body-text">The research phase reframed the project before a single screen was finalized. What started as a portal refresh became an identity and access architecture problem first, a navigation problem second, and a visual design problem third. That ordering shaped everything that followed.</p>
+        </section>
+
+        <!-- WHAT I LEARNED -->
+        <section class="cs-section fade" aria-labelledby="cs-learned">
+          <p class="cs-section-label" id="cs-learned">What I Learned</p>
+          <p class="body-text">Healthcare research rewards patience over instinct. The assumption that felt obviously right in the room — that teens should self-manage their own access — turned out to be wrong the moment we checked it against how the EHR actually behaved. This project taught me to treat every design decision in a regulated system as a hypothesis to verify, not a call to make on judgment alone.</p>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGINATION
+    ═══════════════════════════════════════════════════════ -->
+    <nav class="cs-pagination" aria-label="Case study navigation">
+      <div class="wrap">
+        <div class="cs-pagination-inner">
+
+          <a href="/cobs-bread" class="cs-pag-item" aria-label="Previous case study: One App, Two Bakeries">
+            <span class="cs-pag-direction">← Previous</span>
+            <span class="cs-pag-title">One App, Two Bakeries</span>
+            <span class="cs-pag-sub">Product Design</span>
+          </a>
+
+          <a href="/#work" class="cs-pag-item" aria-label="Back to all work">
+            <span class="cs-pag-direction">All Work →</span>
+            <span class="cs-pag-title">Selected Projects</span>
+            <span class="cs-pag-sub">Back to overview</span>
+          </a>
+
+        </div>
+      </div>
+    </nav>
+
+    <div id="prefooter"></div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="site-footer" id="site-footer" role="contentinfo"></footer>
+
+  <script src="/prefooter.js"></script>
+  <script src="/footer.js"></script>
+  <script>
+    /* ─── CUSTOM CURSOR ─────────────────────────────────── */
+    const dot  = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    if (dot && ring && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      document.body.classList.add('js-cursor');
+
+      let mx = -200, my = -200, rx = -200, ry = -200;
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      (function loop() {
+        dot.style.left  = mx + 'px';
+        dot.style.top   = my + 'px';
+        rx = lerp(rx, mx, 0.12);
+        ry = lerp(ry, my, 0.12);
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('is-hover'); ring.classList.add('is-hover'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
+      });
+    }
+
+    /* ─── STICKY META / PUSH NAV ────────────────────────── */
+    (function () {
+      var header  = document.querySelector('.site-header');
+      var metaBar = document.querySelector('.cs-meta');
+      var sidebar = document.querySelector('.cs-sidebar');
+      if (!header || !metaBar) return;
+
+      function setSidebarTop() {
+        if (sidebar) sidebar.style.top = (metaBar.offsetHeight + 24) + 'px';
+      }
+      setSidebarTop();
+      window.addEventListener('resize', setSidebarTop, { passive: true });
+
+      if (!window.matchMedia('(min-width: 900px)').matches) return;
+
+      var navH = header.offsetHeight;
+
+      function pushNav() {
+        var top = metaBar.getBoundingClientRect().top;
+        if (top > navH) {
+          header.style.transform = '';
+        } else if (top >= 0) {
+          var ratio = (navH - top) / navH;
+          header.style.transform = 'translateY(' + (-ratio * navH) + 'px)';
+        } else {
+          header.style.transform = 'translateY(-' + navH + 'px)';
+        }
+      }
+
+      window.addEventListener('scroll', pushNav, { passive: true });
+      pushNav();
+    })();
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+  </script>
+
+</body>
+</html>
