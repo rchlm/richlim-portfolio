@@ -52,7 +52,7 @@
     /* ─── CUSTOM CURSOR ──────────────────────────────────────────────── */
     .cursor-dot {
       position: fixed; left: -200px; top: -200px;
-      width: 5px; height: 5px;
+      width: 10px; height: 10px;
       background: var(--accent);
       border-radius: 50%;
       pointer-events: none; z-index: 9999;
@@ -71,7 +71,7 @@
       transition: width 0.35s ease, height 0.35s ease,
                   border-color 0.35s ease, background 0.35s ease;
     }
-    .cursor-dot.is-hover { width: 8px; height: 8px; background: var(--text); }
+    .cursor-dot.is-hover { width: 16px; height: 16px; background: var(--text); }
     .cursor-ring.is-hover {
       width: 50px; height: 50px;
       border-color: rgba(182, 218, 199, 0.15);
@@ -383,7 +383,7 @@
     /* Cendyn's viewBox="0 0 144 48": mark occupies the top ~31% (y=0–15),
        letterforms run y=15–48 (~69% of height). To match 25px visual text
        size: 25 / 0.69 ≈ 36px total height. */
-    .exp-logo[alt="Cendyn"] { height: 36px; }
+    .exp-logo[alt="Cendyn"] { height: 41.4px; }
     .exp-meta {
       display: flex;
       flex-direction: column;
