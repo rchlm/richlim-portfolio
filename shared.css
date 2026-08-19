@@ -3,6 +3,203 @@
    Edit here to update every instance of these components sitewide.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ─── LIGHT THEME TOKENS ─────────────────────────────────────────────────── */
+/* Applied when html[data-theme="light"] is set by the theme toggle.          */
+/* All pages default to dark; this block overrides only when light is active. */
+html[data-theme="light"] {
+  --bg:         #F9F8F5;
+  --surface:    #EFECE7;
+  --border:     #DDD9D2;
+  --border-dim: rgba(0,0,0,0.06);
+  --text:       #1C1C1A;
+  --text-dim:   #6B6560;
+  --text-sub:   #706B67; /* #706B67 on #F9F8F5 ≈ 4.96:1 — WCAG AA ✓ */
+  --accent:     #77C8A3;
+}
+
+/* Remove radial gradient in light mode — page uses uniform beige (#F9F8F5) */
+html[data-theme="light"] body {
+  background-image: none;
+}
+
+/* Nav: light mode matches dark mode — no background, transparent sticky header */
+html[data-theme="light"] .site-header {
+  border-top-color: rgba(0,0,0,0.06);
+}
+
+/* Card inset sheen — flip to a dark tint */
+html[data-theme="light"] .card {
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Wordmark + footer logo: pure off-white SVG → invert to near-black */
+html[data-theme="light"] .wordmark img,
+html[data-theme="light"] .footer-logo {
+  filter: invert(1);
+}
+
+/* Case study hero logos (bdh-logos.svg, atp-wta-logos.svg) are white-only */
+html[data-theme="light"] .cs-hero-logo {
+  filter: invert(1);
+}
+
+/* ── Contact/prefooter section ──────────────────────────────────────────── */
+/* In dark mode, .contact-section uses var(--bg) for text (= black on cream). */
+/* In light mode var(--bg) becomes near-white, so we hard-lock the section.   */
+html[data-theme="light"] .contact-section {
+  background: #EDE8D9; /* slightly deeper cream to contrast with light page bg */
+}
+html[data-theme="light"] .contact-section .contact-hl,
+html[data-theme="light"] .contact-section .contact-hl em {
+  color: #1C1C1A;
+}
+html[data-theme="light"] .contact-section .email-btn {
+  color: #F9F8F5;
+  background: #1C1C1A;
+  border-color: #1C1C1A;
+}
+html[data-theme="light"] .contact-section .email-btn .arr { color: inherit; }
+html[data-theme="light"] .contact-section .email-btn:hover {
+  background:   transparent !important;
+  color:        #1C1C1A !important;
+  border-color: rgba(0,0,0,0.35) !important;
+}
+html[data-theme="light"] .contact-section .email-btn:hover .arr { color: inherit !important; }
+
+/* Mobile full-screen nav overlay needs explicit bg in light mode (desktop: transparent to blend) */
+@media (max-width: 640px) {
+  html[data-theme="light"] #nav-menu {
+    background: var(--bg);
+  }
+}
+
+/* Hardcoded #b5b1ac body-copy text used on index + info pages — too washed
+   out on light backgrounds; promote to var(--text-dim) for legibility. */
+html[data-theme="light"] .hero-sub,
+html[data-theme="light"] .work-desc,
+html[data-theme="light"] .info-bio-sub,
+html[data-theme="light"] .about-p,
+html[data-theme="light"] .exp-desc {
+  color: var(--text-dim);
+}
+
+/* Ghost button borders: sage at 35% opacity vanishes on light backgrounds.
+   Swap to a darker sage tint so the border stays visible. */
+html[data-theme="light"] .nav-links .nav-cta,
+html[data-theme="light"] .book-call,
+html[data-theme="light"] .email-btn {
+  border-color: #77C8A3;
+}
+
+/* Custom cursor ring (index.html only) — sage ring invisible on light bg */
+html[data-theme="light"] .cursor-ring {
+  border-color: rgba(119, 200, 163, 0.25);
+}
+
+/* Hamburger lines flip to dark */
+html[data-theme="light"] .hamburger-line {
+  background: var(--text);
+}
+
+/* ─── THEME TOGGLE BUTTON ────────────────────────────────────────────────── */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+.theme-toggle svg {
+  transition: transform 0.2s ease;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  background: transparent;
+}
+.theme-toggle:hover svg {
+  transform: scale(1.2);
+}
+/* Hide sun/moon icon that doesn't match current mode */
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: block; }
+html[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* Nav-bar toggle is inside .nav-right — gap handles spacing */
+.nav-theme-toggle {
+  margin-left: 0;
+}
+
+/* Footer toggle sits in footer-lower row as a third item;
+   space-between distributes it to the far right naturally. */
+.footer-theme-toggle {
+  flex-shrink: 0;
+}
+
+/* ─── NAV RIGHT GROUP ────────────────────────────────────────────────────── */
+/* Groups theme toggle + email CTA + hamburger on the far right of the nav.   */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Email in header (desktop) — hidden on mobile, replaced by overlay version.
+   Uses a.nav-email-desktop (specificity 0,1,1) to beat .nav-cta's border reset (0,1,0). */
+a.nav-email-desktop {
+  color: var(--text);
+  background: transparent;
+  border-color: rgba(182, 218, 199, 0.35);
+  margin-left: 1.667rem;
+}
+html[data-theme="light"] a.nav-email-desktop {
+  border-color: #77C8A3;
+}
+@media (max-width: 640px) {
+  a.nav-email-desktop { display: none; }
+}
+
+/* Email in mobile overlay — hidden on desktop, shown only inside open overlay */
+.nav-email-overlay { display: none; }
+@media (max-width: 640px) {
+  #nav-menu .nav-email-overlay { display: block; }
+}
+
+/* ─── NAV CENTERING (desktop only) ──────────────────────────────────────── */
+/* True viewport-center: absolute within position:relative nav-inner.        */
+/* Logo stays left, nav-right stays right; nav-links floats in the middle.   */
+@media (min-width: 641px) {
+  .nav-inner { position: relative; }
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ─── TICKER LOGOS — LIGHT MODE ─────────────────────────────────────────── */
+/* Dark mode: brightness(0) invert(1) = white logos.                         */
+/* Light mode: brightness(0) = black logos on beige bg.                      */
+/* Contrast: #000 on #F9F8F5 ≈ 20:1 — WCAG AAA ✓                           */
+html[data-theme="light"] .ticker-slot img {
+  filter: brightness(0);
+  opacity: 0.65;
+}
+
+/* Experience section logos — white in dark mode (set via inline style), black in light mode */
+html[data-theme="light"] .exp-logo {
+  filter: brightness(0);
+}
+
 /* ─── PRIMARY BUTTON BASE ────────────────────────────────────────────────── */
 /* Sizing, typography, and transition shared by all primary buttons. */
 .nav-cta,
@@ -359,6 +556,23 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim); /* #a09c97 — 8.2:1 on #000 ✓ */
+}
+
+/* Locale + toggle grouped on the right; gap mirrors header icon-to-email spacing */
+.footer-lower-right {
+  display: flex;
+  align-items: center;
+  gap: 1.667rem;
+}
+
+.footer-locale {
+  white-space: nowrap;
+}
+
+/* index.html inline style overrides .footer-copy to --text-sub; restore with higher specificity */
+html[data-theme="light"] .footer-copy,
+html[data-theme="light"] .footer-locale {
+  color: var(--text-dim); /* #6B6560 on #F9F8F5 = 5.41:1 — WCAG AA ✓ */
 }
 
 @media (max-width: 900px) {

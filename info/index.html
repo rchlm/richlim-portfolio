@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Theme init: must run before CSS to prevent flash of wrong theme -->
+  <script>if(localStorage.getItem('rl-theme')==='light')document.documentElement.setAttribute('data-theme','light');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Info · Rich Lim · Senior Product Designer</title>
@@ -371,16 +373,17 @@
       gap: clamp(0.875rem, 1.5vh, 1.125rem);
     }
     .exp-logo {
-      height: 26px;
+      height: 25px;
       width: auto;
       filter: brightness(0) invert(1);
       opacity: 1;
       flex-shrink: 0;
       align-self: flex-start;
     }
-    /* Cendyn's viewBox has a decorative mark consuming ~30% of its height,
-       making letterforms appear smaller at equal height — compensate visually. */
-    .exp-logo[alt="Cendyn"] { height: 38px; }
+    /* Cendyn's viewBox="0 0 144 48": mark occupies the top ~31% (y=0–15),
+       letterforms run y=15–48 (~69% of height). To match 25px visual text
+       size: 25 / 0.69 ≈ 36px total height. */
+    .exp-logo[alt="Cendyn"] { height: 36px; }
     .exp-meta {
       display: flex;
       flex-direction: column;
