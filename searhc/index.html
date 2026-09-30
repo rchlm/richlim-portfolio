@@ -5,9 +5,10 @@
   <script>if(localStorage.getItem('rl-theme')==='light')document.documentElement.setAttribute('data-theme','light');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>One SEARHC Experience · Rich Lim</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="description" content="Research and discovery work redesigning a fragmented patient portal into one unified mobile-first experience for a regional health system serving remote Southeast Alaska communities." />
+  <meta name="description" content="A research-led redesign of the MySEARHC patient portal for Southeast Alaska, from first stakeholder interviews to engineering handoff." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -322,6 +323,17 @@
       line-height: 1.7; color: var(--text-dim);
     }
 
+    /* ─── CARD GRID 2×2 ─────────────────────────────────────────────── */
+    .cs-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 1100px) {
+      .cs-card-grid { grid-template-columns: 1fr; }
+    }
+    .cs-work-card--full { flex: none; }
+
     /* ─── IN-CONTENT IMAGE ───────────────────────────────────────────── */
     .cs-image { width: 100%; border-radius: 12px; overflow: hidden; }
     .cs-image img { width: 100%; height: auto; display: block; }
@@ -418,6 +430,115 @@
       }
       .cs-pag-item:last-child .cs-pag-direction { justify-content: flex-start; }
     }
+
+    /* ─── WORK PHASE GROUPS ─────────────────────────────────────────── */
+    .cs-work-phase-group { display: flex; flex-direction: column; gap: 1.25rem; }
+    .cs-work-phase-group + .cs-work-phase-group { margin-top: 2.5rem; }
+    .cs-work-phase-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ─── PLAIN WORK ITEMS ──────────────────────────────────────────── */
+    .cs-work-list { display: flex; flex-direction: column; gap: 2.25rem; }
+    .cs-work-item { display: flex; flex-direction: column; gap: 0.875rem; }
+    .cs-work-item-num {
+      font-family: var(--mono);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; line-height: 1;
+      letter-spacing: -0.03em; color: var(--text-sub);
+    }
+    .cs-work-item-title {
+      font-family: var(--sans); font-size: clamp(1rem, 1.5vw, 1.125rem);
+      font-weight: 500; letter-spacing: -0.02em; color: var(--text);
+    }
+    .cs-work-item-desc {
+      font-family: var(--sans); font-size: 0.9375rem;
+      line-height: 1.7; color: var(--text-dim);
+    }
+
+    /* ─── SECTION HEADING ───────────────────────────────────────────── */
+    .cs-section-heading {
+      font-family: var(--sans); font-size: clamp(1.125rem, 1.75vw, 1.375rem);
+      font-weight: 500; letter-spacing: -0.025em; color: var(--text);
+    }
+
+    /* ─── PASSWORD GATE ──────────────────────────────────────────────── */
+    .cs-gate { max-width: 420px; padding-bottom: clamp(3rem, 8vh, 5rem); }
+    .cs-gate-eyebrow {
+      font-family: var(--mono); font-size: 0.5625rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .cs-gate-helper {
+      font-size: 0.9375rem; line-height: 1.65;
+      color: var(--text-dim); margin-bottom: 1.75rem;
+    }
+    .cs-gate-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .cs-gate-field { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cs-gate-label {
+      font-family: var(--mono); font-size: 0.6875rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .cs-gate-input-wrap { position: relative; display: flex; align-items: center; }
+    .cs-gate-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--sans); font-size: 0.9375rem;
+      padding: 0.8125rem 3rem 0.8125rem 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .cs-gate-input:focus { border-color: rgba(182,218,199,0.6); }
+    .cs-gate-input.is-error { border-color: rgba(248,113,113,0.6); }
+    .cs-gate-toggle {
+      position: absolute; right: 0.75rem;
+      background: none; border: none; padding: 0.3rem;
+      color: var(--text-dim); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.15s; border-radius: 4px;
+    }
+    .cs-gate-toggle:hover { color: var(--text); }
+    .cs-gate-error {
+      font-family: var(--sans); font-size: 0.875rem;
+      line-height: 1.4; color: #f87171;
+    }
+    .cs-gate-submit {
+      align-self: flex-start;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid rgba(182, 218, 199, 0.35);
+      font-family: var(--mono); font-size: 0.8125rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.75rem 1.4rem; border-radius: 6px;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    .cs-gate-submit:hover:not(:disabled) {
+      background: #B6DAC7; color: #000; border-color: #B6DAC7;
+    }
+    .cs-gate-submit:disabled { opacity: 0.5; cursor: default; }
+    .cs-gate-access {
+      font-size: 0.875rem; color: var(--text-dim);
+      margin-top: 1.5rem;
+    }
+    .cs-gate-access a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: rgba(182,218,199,0.5);
+      text-underline-offset: 2px;
+      transition: color 0.15s, text-decoration-color 0.15s;
+    }
+    .cs-gate-access a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+    /* ─── GATED CONTENT SHELL ────────────────────────────────────────── */
+    #cs-gated-content { display: none; }
   </style>
 </head>
 <body>
@@ -435,7 +556,7 @@
   <main id="main">
 
     <!-- ═══════════════════════════════════════════════════════
-         HERO
+         HERO — always visible
     ═══════════════════════════════════════════════════════ -->
     <section class="cs-hero" aria-labelledby="cs-title">
       <div class="cs-hero-inner wrap page-hero-inner">
@@ -443,181 +564,47 @@
         <div class="cs-hero-head">
           <img class="cs-hero-logo" src="/logos/searhc-logo.svg" alt="SEARHC" />
           <h1 class="cs-hero-title" id="cs-title">
-            One <em>SEARHC</em> Experience
+            One SEARHC <em>Experience</em>
           </h1>
         </div>
 
-        <p class="cs-hero-subtitle">Southeast Alaska Regional Health Consortium serves patients scattered across a network of island and mainland communities, many reachable only by plane or ferry. The ask was to take a fragmented patient portal and rebuild it into a single mobile-first experience that could hold the whole system together.</p>
+        <p class="cs-hero-subtitle">A research-led redesign of the MySEARHC patient portal for communities across Southeast Alaska. Discovery started from zero and carried through to a mobile and desktop product now in development.</p>
 
-      </div>
+        <!-- PASSWORD GATE — hidden by default, shown by JS if not unlocked -->
+        <div id="cs-gate" class="cs-gate" style="display:none" aria-label="Password required">
+          <p class="cs-gate-eyebrow">Protected Case Study</p>
+          <p class="cs-gate-helper">This project is shared by request. Enter the password to view the full case study.</p>
+          <form id="cs-gate-form" class="cs-gate-form" novalidate>
+            <div class="cs-gate-field">
+              <label class="cs-gate-label" for="cs-pw-input">Password</label>
+              <div class="cs-gate-input-wrap">
+                <input
+                  type="password"
+                  id="cs-pw-input"
+                  class="cs-gate-input"
+                  autocomplete="current-password"
+                  spellcheck="false"
+                />
+                <button type="button" class="cs-gate-toggle" id="cs-pw-toggle"
+                  aria-label="Show password" aria-pressed="false">
+                  <!-- eye icon injected by JS -->
+                </button>
+              </div>
+              <p id="cs-gate-error" class="cs-gate-error" role="alert" aria-live="assertive" hidden></p>
+            </div>
+            <button type="submit" class="cs-gate-submit" id="cs-gate-submit">View Case Study</button>
+          </form>
+          <p class="cs-gate-access">Need access? <a href="mailto:richlim27@gmail.com">richlim27@gmail.com</a></p>
+        </div>
 
-      <div class="cs-hero-image placeholder" style="aspect-ratio: 16 / 9;">
-        <span class="placeholder-lbl" aria-hidden="true">Hero Image — searhc-hero.jpg</span>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════
-         META BAR
-    ═══════════════════════════════════════════════════════ -->
-    <section class="cs-meta" aria-label="Project details">
-      <div class="wrap">
-        <div class="cs-meta-inner">
-          <div class="cs-meta-item">
-            <span class="cs-meta-label">Role</span>
-            <span class="cs-meta-value">UX / Design Lead</span>
-          </div>
-          <div class="cs-meta-item">
-            <span class="cs-meta-label">Client</span>
-            <span class="cs-meta-value">SEARHC</span>
-          </div>
-          <div class="cs-meta-item">
-            <span class="cs-meta-label">Scope</span>
-            <span class="cs-meta-value">Research &amp; Discovery, Native Mobile</span>
-          </div>
-          <div class="cs-meta-item">
-            <span class="cs-meta-label">Year</span>
-            <span class="cs-meta-value">2026 · Ongoing</span>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Encrypted payload (not executed by browser) -->
+    <script id="cs-payload" type="application/json">{"s":"Uaepby4/VoUGckfmKjMObA==","i":"ndupU7tAAfiztkp3","d":"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"}</script>
 
-    <!-- ═══════════════════════════════════════════════════════
-         BODY — SIDEBAR + CONTENT
-    ═══════════════════════════════════════════════════════ -->
-    <div class="cs-body wrap">
-
-      <!-- SIDEBAR -->
-      <aside class="cs-sidebar" aria-label="Project overview">
-        <a href="/#work" class="cs-back-btn" aria-label="Back to all work">← All Work</a>
-        <div class="cs-sidebar-section fade">
-          <p class="cs-sidebar-label">Overview</p>
-          <p class="cs-sidebar-text">SEARHC's existing patient portal ran on top of Meditech, its underlying EHR, with scheduling and notifications handled separately by Luma. Patients experienced the seams. The brief was to design a unified app that felt like one product, not a stitched-together set of systems, for a population that includes remote communities, lower digital literacy users, and Tlingit, Haida, and Tsimshian patients whose relationship to the health system carries its own cultural weight.</p>
-        </div>
-        <div class="cs-sidebar-section fade">
-          <p class="cs-sidebar-label">My Role</p>
-          <p class="cs-sidebar-text cs-sidebar-role">UX / Design Lead</p>
-          <p class="cs-sidebar-text">Leading design on the engagement in partnership with Raining Virtue, the delivery partner handling infrastructure and technical architecture. Owned discovery research, information architecture, and the identity and access model, working directly with SEARHC's compliance, clinical, and IT stakeholders across a dozen-plus discovery sessions.</p>
-        </div>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <div class="cs-content">
-
-        <!-- THE PROBLEM -->
-        <section class="cs-section fade" aria-labelledby="cs-problem">
-          <p class="cs-section-label" id="cs-problem">The Problem</p>
-          <p class="body-text">The portal's problems weren't visual. They were structural. Patient identity and digital account identity had never been treated as separate concepts, which made proxy access, minor accounts, and multi-facility records behave inconsistently. Behavioral health data carried federal confidentiality restrictions the rest of the app didn't. And every design assumption had to be checked against what Meditech actually did, not what the team assumed it did.</p>
-          <div class="cs-pullquote-box">
-            <blockquote class="cs-pullquote">
-              How do you design a single digital front door for a health system that spans dozens of communities, an aging EHR, and layers of legal complexity around who's allowed to see what?
-            </blockquote>
-          </div>
-        </section>
-
-        <figure class="cs-image placeholder fade" style="aspect-ratio: 16 / 9;">
-          <span class="placeholder-lbl" aria-hidden="true">Product Image — searhc-product-1.jpg</span>
-        </figure>
-
-        <!-- WHAT WE DID -->
-        <section class="cs-section fade" aria-labelledby="cs-work">
-          <p class="cs-section-label" id="cs-work">What We Did</p>
-          <div class="cs-work-grid" role="list">
-
-            <div class="cs-work-card" role="listitem">
-              <div class="cs-work-card-num" aria-hidden="true">01</div>
-              <h2 class="cs-work-card-title">Untangling Patient Identity from Digital Identity</h2>
-              <p class="cs-work-card-desc">The existing system conflated a person's clinical record with their app login. We worked with SEARHC's identity architect to separate the two: an enterprise patient identity that exists independent of any account, and a digital identity that links to it. That split unlocked three distinct patient journeys, including one that lets a patient schedule and receive care without ever creating an account.</p>
-            </div>
-
-            <div class="cs-work-card" role="listitem">
-              <div class="cs-work-card-num" aria-hidden="true">02</div>
-              <h2 class="cs-work-card-title">An Age-Banded Proxy &amp; Access Model</h2>
-              <p class="cs-work-card-desc">Caregiver and guardian access needed to satisfy HIPAA, Alaska minor consent law, and Meditech's own configuration limits at once. We built a proxy framework around two hard thresholds, ages 13 and 18, where access is granted, staff-mediated, or severed. What looked like a permissions toggle turned out to require its own lifecycle logic.</p>
-            </div>
-
-            <div class="cs-work-card" role="listitem">
-              <div class="cs-work-card-num" aria-hidden="true">03</div>
-              <h2 class="cs-work-card-title">A Dashboard Rebuilt Around Real Usage</h2>
-              <p class="cs-work-card-desc">The original design leaned on a single notification-pill pattern to surface everything needing attention. We replaced it with a true dashboard: structured cards for appointments, medications, results, and messages, each with its own empty state. Card priority was set by actual usage data, not assumption, which is why medications outranked billing.</p>
-            </div>
-
-            <div class="cs-work-card" role="listitem">
-              <div class="cs-work-card-num" aria-hidden="true">04</div>
-              <h2 class="cs-work-card-title">Designing With Cultural Weight, Not Around It</h2>
-              <p class="cs-work-card-desc">A meaningful share of SEARHC's patients are Tlingit, Haida, and Tsimshian. We set a hard rule early: no formline art or language elements without community ownership. Any indigenous design element gets commissioned through local artists and reviewed with the Sealaska Heritage Institute, not generated by the design team in isolation.</p>
-            </div>
-
-            <div class="cs-work-card" role="listitem">
-              <div class="cs-work-card-num" aria-hidden="true">05</div>
-              <h2 class="cs-work-card-title">Discovery Across a Fragmented System Stack</h2>
-              <p class="cs-work-card-desc">Meditech, Luma, Zoom's telehealth infrastructure, and a Salesforce-based travel workflow all had to be reconciled into one coherent architecture. Repeated discovery sessions surfaced gaps between what stakeholders assumed a system did and what it actually did, most notably around adolescent self-registration, which reset a core piece of the access model.</p>
-            </div>
-
-          </div>
-        </section>
-
-        <figure class="cs-image placeholder fade" style="aspect-ratio: 16 / 9;">
-          <span class="placeholder-lbl" aria-hidden="true">Product Image — searhc-product-2.jpg</span>
-        </figure>
-
-        <!-- OUTCOMES -->
-        <section class="cs-section fade" aria-labelledby="cs-outcomes">
-          <p class="cs-section-label" id="cs-outcomes">Outcomes</p>
-
-          <div class="cs-outcomes" role="list">
-            <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">6+</span>
-              <p class="cs-outcome-label">Stakeholder groups aligned across clinical, compliance, and technical teams</p>
-            </div>
-            <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">3</span>
-              <p class="cs-outcome-label">Patient identity journeys mapped and adopted as the architectural foundation</p>
-            </div>
-            <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">12+</span>
-              <p class="cs-outcome-label">Discovery sessions run across behavioral health, identity, and IA workstreams</p>
-            </div>
-            <div class="cs-outcome" role="listitem">
-              <span class="cs-outcome-val">Ongoing</span>
-              <p class="cs-outcome-label">Engagement in active delivery, building on the discovery foundation</p>
-            </div>
-          </div>
-
-          <p class="body-text">The research phase reframed the project before a single screen was finalized. What started as a portal refresh became an identity and access architecture problem first, a navigation problem second, and a visual design problem third. That ordering shaped everything that followed.</p>
-        </section>
-
-        <!-- WHAT I LEARNED -->
-        <section class="cs-section fade" aria-labelledby="cs-learned">
-          <p class="cs-section-label" id="cs-learned">What I Learned</p>
-          <p class="body-text">Healthcare research rewards patience over instinct. The assumption that felt obviously right in the room — that teens should self-manage their own access — turned out to be wrong the moment we checked it against how the EHR actually behaved. This project taught me to treat every design decision in a regulated system as a hypothesis to verify, not a call to make on judgment alone.</p>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════
-         PAGINATION
-    ═══════════════════════════════════════════════════════ -->
-    <nav class="cs-pagination" aria-label="Case study navigation">
-      <div class="wrap">
-        <div class="cs-pagination-inner">
-
-          <a href="/cobs-bread" class="cs-pag-item" aria-label="Previous case study: One App, Two Bakeries">
-            <span class="cs-pag-direction">← Previous</span>
-            <span class="cs-pag-title">One App, Two Bakeries</span>
-            <span class="cs-pag-sub">Product Design</span>
-          </a>
-
-          <a href="/#work" class="cs-pag-item" aria-label="Back to all work">
-            <span class="cs-pag-direction">All Work →</span>
-            <span class="cs-pag-title">Selected Projects</span>
-            <span class="cs-pag-sub">Back to overview</span>
-          </a>
-
-        </div>
-      </div>
-    </nav>
+    <!-- Gated content injected here after unlock -->
+    <div id="cs-gated-content" aria-live="polite"></div>
 
     <div id="prefooter"></div>
 
@@ -631,32 +618,39 @@
   <script src="/prefooter.js"></script>
   <script src="/footer.js"></script>
   <script>
-    /* ─── CUSTOM CURSOR ─────────────────────────────────── */
-    const dot  = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
-    if (dot && ring && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      document.body.classList.add('js-cursor');
+    /* ─── SVG ICONS ─────────────────────────────────────── */
+    var EYE_SHOW = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    var EYE_HIDE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 
-      let mx = -200, my = -200, rx = -200, ry = -200;
-      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-      function lerp(a, b, t) { return a + (b - a) * t; }
-      (function loop() {
-        dot.style.left  = mx + 'px';
-        dot.style.top   = my + 'px';
-        rx = lerp(rx, mx, 0.12);
-        ry = lerp(ry, my, 0.12);
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
-        requestAnimationFrame(loop);
-      })();
-      document.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(el => {
-        el.addEventListener('mouseenter', () => { dot.classList.add('is-hover'); ring.classList.add('is-hover'); });
-        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
+    /* ─── CUSTOM CURSOR ─────────────────────────────────── */
+    var dot  = document.querySelector('.cursor-dot');
+    var ring = document.querySelector('.cursor-ring');
+    var hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    function addHoverListeners(root) {
+      if (!hasFinePointer || !dot || !ring) return;
+      root.querySelectorAll('a, button, [role="button"], input, select, textarea').forEach(function (el) {
+        el.addEventListener('mouseenter', function () { dot.classList.add('is-hover'); ring.classList.add('is-hover'); });
+        el.addEventListener('mouseleave', function () { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
       });
     }
 
+    if (dot && ring && hasFinePointer) {
+      document.body.classList.add('js-cursor');
+      var mx = -200, my = -200, rx = -200, ry = -200;
+      document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      (function loop() {
+        dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+        rx = lerp(rx, mx, 0.12); ry = lerp(ry, my, 0.12);
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+      addHoverListeners(document);
+    }
+
     /* ─── STICKY META / PUSH NAV ────────────────────────── */
-    (function () {
+    function initMetaNav() {
       var header  = document.querySelector('.site-header');
       var metaBar = document.querySelector('.cs-meta');
       var sidebar = document.querySelector('.cs-sidebar');
@@ -669,31 +663,143 @@
       window.addEventListener('resize', setSidebarTop, { passive: true });
 
       if (!window.matchMedia('(min-width: 900px)').matches) return;
-
       var navH = header.offsetHeight;
-
       function pushNav() {
         var top = metaBar.getBoundingClientRect().top;
-        if (top > navH) {
-          header.style.transform = '';
-        } else if (top >= 0) {
-          var ratio = (navH - top) / navH;
-          header.style.transform = 'translateY(' + (-ratio * navH) + 'px)';
-        } else {
-          header.style.transform = 'translateY(-' + navH + 'px)';
+        if (top > navH)      header.style.transform = '';
+        else if (top >= 0)   header.style.transform = 'translateY(' + (-(navH - top) / navH * navH) + 'px)';
+        else                 header.style.transform = 'translateY(-' + navH + 'px)';
+      }
+      window.addEventListener('scroll', pushNav, { passive: true });
+      pushNav();
+    }
+    initMetaNav();
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────── */
+    var fadeObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade').forEach(function (el) { fadeObserver.observe(el); });
+
+    /* ─── PASSWORD GATE ─────────────────────────────────── */
+    (function () {
+      var gate   = document.getElementById('cs-gate');
+      var form   = document.getElementById('cs-gate-form');
+      var input  = document.getElementById('cs-pw-input');
+      var submit = document.getElementById('cs-gate-submit');
+      var errEl  = document.getElementById('cs-gate-error');
+      var toggle = document.getElementById('cs-pw-toggle');
+      var gated  = document.getElementById('cs-gated-content');
+
+      /* Inject initial eye icon */
+      if (toggle) toggle.innerHTML = EYE_SHOW;
+
+      function revealContent(html) {
+        gate.style.display = 'none';
+        gated.innerHTML = html;
+        gated.style.display = 'block';
+        gated.style.opacity = '0';
+        gated.style.transition = 'opacity 0.7s ease';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { gated.style.opacity = '1'; });
+        });
+        setTimeout(function () {
+          var meta = gated.querySelector('.cs-meta');
+          if (meta) { meta.setAttribute('tabindex', '-1'); meta.focus({ preventScroll: false }); }
+        }, 150);
+        gated.querySelectorAll('.fade').forEach(function (el) { fadeObserver.observe(el); });
+        addHoverListeners(gated);
+        initMetaNav();
+      }
+
+      async function attemptDecrypt(pw) {
+        var payloadEl = document.getElementById('cs-payload');
+        if (!payloadEl) return false;
+        var p;
+        try { p = JSON.parse(payloadEl.textContent); } catch (e) { return false; }
+        if (!p.s || !p.i || !p.d) return false;
+
+        function fromB64(str) {
+          return Uint8Array.from(atob(str), function (c) { return c.charCodeAt(0); });
+        }
+
+        var salt = fromB64(p.s);
+        var iv   = fromB64(p.i);
+        var data = fromB64(p.d);
+        var subtle = window.crypto.subtle;
+        var enc = new TextEncoder();
+
+        try {
+          var km  = await subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
+          var key = await subtle.deriveKey(
+            { name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: 200000 },
+            km,
+            { name: 'AES-GCM', length: 256 },
+            false,
+            ['decrypt']
+          );
+          var plain = await subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, data);
+          return new TextDecoder().decode(plain);
+        } catch (e) {
+          return false;
         }
       }
 
-      window.addEventListener('scroll', pushNav, { passive: true });
-      pushNav();
+      /* Session check */
+      var cached = null;
+      try { cached = sessionStorage.getItem('searhc-content'); } catch (e) {}
+
+      if (cached) {
+        revealContent(cached);
+        return;
+      }
+
+      /* Show gate */
+      gate.style.display = 'block';
+
+      /* Show/hide toggle */
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+          toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+          toggle.innerHTML = show ? EYE_HIDE : EYE_SHOW;
+        });
+      }
+
+      /* Submit */
+      if (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          var pw = input.value;
+          if (!pw) { input.focus(); return; }
+
+          errEl.hidden = true;
+          input.classList.remove('is-error');
+          submit.disabled = true;
+          submit.textContent = 'Verifying…';
+
+          var html = await attemptDecrypt(pw);
+
+          if (html === false) {
+            errEl.textContent = "That password isn’t right. Try again.";
+            errEl.hidden = false;
+            input.value = '';
+            input.classList.add('is-error');
+            submit.disabled = false;
+            submit.textContent = 'View Case Study';
+            input.focus();
+            return;
+          }
+
+          try { sessionStorage.setItem('searhc-content', html); } catch (e) {}
+          revealContent(html);
+        });
+      }
     })();
-
-    /* ─── SCROLL REVEAL ─────────────────────────────────── */
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade').forEach(el => observer.observe(el));
-
   </script>
 
 </body>

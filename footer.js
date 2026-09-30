@@ -35,18 +35,24 @@
     + '</div>'
     + '</div>';
 
-  /* -- Arizona time -------------------------------------------------------- */
-  function getArizonaTime() {
-    return new Date().toLocaleString('en-US', {
-      timeZone: 'America/Phoenix',
+  /* -- Colorado Mountain time ---------------------------------------------- */
+  function getMountainTime() {
+    var now = new Date();
+    var time = now.toLocaleString('en-US', {
+      timeZone: 'America/Denver',
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
-    }) + ' MST';
+    });
+    var abbr = now.toLocaleTimeString('en-US', {
+      timeZone: 'America/Denver',
+      timeZoneName: 'short'
+    }).split(' ').pop();
+    return time + ' ' + abbr;
   }
 
   (function tick() {
-    var t = getArizonaTime();
+    var t = getMountainTime();
     ['hero-time', 'footer-time'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.textContent = t;

@@ -500,19 +500,20 @@
       object-fit: cover;
       object-position: top center;
       opacity: 0;
-      animation: phone-cycle 2.5s linear infinite both;
+      animation: phone-cycle 3s linear infinite both;
     }
     .phone-screen img:nth-of-type(1) { animation-delay: 0s; }
     .phone-screen img:nth-of-type(2) { animation-delay: 0.5s; }
     .phone-screen img:nth-of-type(3) { animation-delay: 1s; }
     .phone-screen img:nth-of-type(4) { animation-delay: 1.5s; }
     .phone-screen img:nth-of-type(5) { animation-delay: 2s; }
+    .phone-screen img:nth-of-type(6) { animation-delay: 2.5s; }
 
     @keyframes phone-cycle {
       0%    { opacity: 0; }
       0.5%  { opacity: 1; }
-      20%   { opacity: 1; }
-      20.5% { opacity: 0; }
+      16.7% { opacity: 1; }
+      17.2% { opacity: 0; }
       100%  { opacity: 0; }
     }
 
@@ -625,6 +626,14 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-dim);
+    }
+
+    .work-protected {
+      display: inline-flex; align-items: center; gap: 0.35em;
+      font-family: var(--mono); font-size: 0.5625rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-sub);
+      margin-top: 0.5rem;
     }
 
     .work-title {
@@ -839,6 +848,7 @@
                 <img src="/03.jpg" alt="" />
                 <img src="/04.jpg" alt="" />
                 <img src="/05.jpg" alt="" />
+                <img src="/06.jpg" alt="" />
                 <div class="phone-notch"></div>
                 <div class="phone-home-bar"></div>
               </div>
@@ -867,23 +877,25 @@
             <a href="/searhc" class="work-link" aria-labelledby="work-title-1" aria-label="View One SEARHC Experience case study"></a>
             <div class="work-body">
               <span class="work-client">SEARHC</span>
-              <h3 class="work-title" id="work-title-1">One <em>SEARHC</em> Experience</h3>
-              <p class="work-desc">Redesigning a fragmented patient portal into a unified mobile-first experience for a regional health system serving remote Southeast Alaska communities.</p>
+              <h3 class="work-title" id="work-title-1">One SEARHC <em>Experience</em></h3>
+              <p class="work-desc">A patient portal rebuilt from first-ever research for communities across Southeast Alaska. From stakeholder interviews to engineering handoff.</p>
               <dl class="card-meta">
                 <div class="card-meta-item">
                   <dt class="card-meta-lbl">Role</dt>
-                  <dd class="card-meta-val">UX / Design Lead</dd>
+                  <dd class="card-meta-val">Product Design Lead</dd>
                 </div>
                 <div class="card-meta-item">
                   <dt class="card-meta-lbl">Scope</dt>
-                  <dd class="card-meta-val">Research &amp; Discovery, Native Mobile</dd>
+                  <dd class="card-meta-val">Research &amp; Native Mobile</dd>
                 </div>
               </dl>
+              <p class="work-protected" aria-label="Password protected">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Password Protected
+              </p>
             </div>
             <div class="work-aside">
-              <div class="work-cover placeholder" style="aspect-ratio: 4 / 3;">
-                <span class="placeholder-lbl" aria-hidden="true">Cover — searhc-cover.jpg</span>
-              </div>
+              <img class="work-cover" src="searhc-hero-f215e446.jpg" alt="One SEARHC Experience, MySEARHC patient portal redesign" loading="lazy" />
             </div>
           </article>
 
@@ -892,7 +904,7 @@
             <div class="work-body">
               <span class="work-client">ATP · WTA</span>
               <h3 class="work-title" id="work-title-2">The <em>Home</em> of Tennis</h3>
-              <p class="work-desc">Unifying ATP and WTA into one authoritative mobile product — two competing brands, one shared vision for the world's most-watched tennis platform.</p>
+              <p class="work-desc">Unifying ATP and WTA into one authoritative mobile product. Two competing brands, one shared vision for the world's most-watched tennis platform.</p>
               <dl class="card-meta">
                 <div class="card-meta-item">
                   <dt class="card-meta-lbl">Role</dt>
@@ -905,7 +917,7 @@
               </dl>
             </div>
             <div class="work-aside">
-              <img class="work-cover" src="atp-wta-cover.jpg" alt="The Home of Tennis — ATP &amp; WTA" loading="lazy" />
+              <img class="work-cover" src="atp-wta-cover.jpg" alt="The Home of Tennis, ATP &amp; WTA" loading="lazy" />
             </div>
           </article>
 
@@ -927,7 +939,7 @@
               </dl>
             </div>
             <div class="work-aside">
-              <img class="work-cover" src="bdh-cover.jpg" alt="One App, Two Bakeries — COBS Bread &amp; Bakers Delight" loading="lazy" />
+              <img class="work-cover" src="bdh-cover.jpg" alt="One App, Two Bakeries, COBS Bread &amp; Bakers Delight" loading="lazy" />
             </div>
           </article>
 
